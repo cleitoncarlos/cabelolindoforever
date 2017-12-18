@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="_template.xhtml">
+	<ui:define name="conteudo">
+
+		<p:spacer height="" />
+		<p:panel style="background-color:#FFFFFF; border:none" width="100%;">
+			<h:outputLabel class="fa fa fa-users" />
+			<h:outputLabel value=" Listar Clientes"
+				style="font-family: sans-serif;" />
+
+		</p:panel>
+
+		<p:commandButton id="btn-add-cliente" value="Adicionar Cliente"
+			icon="fa fa-fw fa-plus-circle" onclick="PF('dlgCliente').show();" />
+		<div>
+			<p:dataTable id="tabelaClientes" styleClass="ui-noborder table"
+				value="#{clienteController.clientes}" var="cliente">
+
+				<p:column headerText="Codigo" styleClass="alignEsquerdo">
+					<h:outputText value="#{cliente.codigo}" />
+				</p:column>
+
+				<p:column headerText="Data Cadastro" styleClass="alignEsquerdo">
+					<h:outputText value="#{cliente.dataCadastro.time}"
+						styleClass="alignEsquerdo">
+						<f:convertDateTime dateStyle="long" pattern="dd/MM/yyyy HH:mm" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Nome" styleClass="alignEsquerdo">
+					<h:outputText value="#{cliente.nome}" />
+				</p:column>
+
+				<p:column headerText="Celular" styleClass="alignEsquerdo">
+					<h:outputText value="#{cliente.celular}" />
+				</p:column>
+
+				<p:column headerText="Ação" style="width:7%;">
+					<p:commandButton id="btn-edits" icon="fa fa-edit"
+							style="background: #ffa500 !important; color: #FFFFFF;	font-size: 12px;"
+							update=":formNovoCliente" oncomplete="PF('dlgCliente').show();">
+							<f:setPropertyActionListener value="#{cliente}"
+							target="#{clienteController.cliente}" />
+						</p:commandButton>
+				</p:column>
+
+			</p:dataTable>
+		</div>
+		<br />
+		<br />
+		<br />
+
+		<!-- Dialog - Cadastrar novo Cliente -->
+		<p:dialog header="Novo Cliente" widgetVar="dlgCliente" modal="false"
+			closable="false" width="80%" height="550" resizable="false">
+			<br />
+			<h:form id="formNovoCliente">
+
+				<p:messages closable="true" />
+				<p:growl id="message" />
+
+				<h:outputLabel class="fa fa-list-alt" />
+				<h:outputLabel value=" Dados Gerais"
+					style="font-family: sans-serif;" />
+				<h:panelGrid style="background-color:#F5F5F5" width="100%">
+					<p:panelGrid columns="3"
+						style="background-color:#F5F5F5; width:100%; "
+						styleClass="ui-noborder">
+
+
+						<p:outputLabel for="tipoCliente" value="Tipo de Cliente"
+							styleClass="alignEsquerdo" required="true" />
+						<p:outputLabel for="nome" value="Nome:" styleClass="alignEsquerdo" />
+						<p:outputLabel for="foneComercial" value="Telefone Comercial:"
+							styleClass="alignEsquerdo" />
+
+
+						<p:selectOneMenu id="tipoCliente"
+							required="true"
+							requiredMessage="O campo Tipo de Cliente é Obrigatório."
+							style="width:90%; border-color: #cccccc !important; font-size: 13px !important;"
+							value="#{clienteController.cliente.tipoCliente}">
+							<f:selectItem itemLabel="-- Selecione --" itemValue="#{null}" />
+							<f:selectItems value="#{clienteController.tiposClinte}"
+								var="tipo" itemValue="#{tipo}" itemLabel="#{tipo.descricao}" />
+						</p:selectOneMenu>
+
+						<p:inputText id="nome" styleClass="input100"
+							value="#{clienteController.cliente.nome}" />
+						<p:inputMask mask="(99) 9999-9999" id="foneComercial"
+							styleClass="input100"
+							value="#{clienteController.cliente.telefone}" />
+
+						<p:outputLabel for="foneCelular" value="Telefone Celular:"
+							styleClass="alignEsquerdo" />
+						<p:outputLabel for="email" value="Email:"
+							styleClass="alignEsquerdo" />
+						<p:outputLabel for="situacao" value="Situação:"
+							styleClass="alignEsquerdo" />
+
+						<p:inputMask mask="(99) 9999-9999" id="foneCelular"
+							styleClass="input100"
+							value="#{clienteController.cliente.celular}" />
+						<p:inputText id="email" styleClass="input100"
+							value="#{clienteController.cliente.email}">
+							<!-- <f:validateRegex
+								pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" /> -->
+						</p:inputText>
+
+						<p:selectOneMenu id="situacao" required="true"
+							requiredMessage="O campo Situação é Obrigatório."
+							style="width:90%; border-color: #cccccc !important; font-size: 13px !important;"
+							value="#{clienteController.cliente.situacaoCliente}">
+							<f:selectItem itemLabel="-- Selecione --" itemValue="#{null}" />
+							<f:selectItems value="#{clienteController.situacaoCliente}"
+								var="situacao" itemValue="#{situacao}"
+								itemLabel="#{situacao.descricao}" />
+						</p:selectOneMenu>
+
+					</p:panelGrid>
+
+				</h:panelGrid>
+				<br />
+				<h:outputLabel class="fa fa-map-marker" />
+				<h:outputLabel value=" Endereço" style="font-family: sans-serif;" />
+
+				<h:panelGrid style="background-color:#F5F5F5" width="100%">
+					<p:panelGrid columns="3"
+						style="background-color:#F5F5F5; width:100%; "
+						styleClass="ui-noborder">
+
+						<p:outputLabel for="cep" value="CEP" styleClass="alignEsquerdo" />
+						<p:outputLabel for="logradouro" value="Logradouro:"
+							styleClass="alignEsquerdo" />
+						<p:outputLabel for="numero" value="Numero:"
+							styleClass="alignEsquerdo" />
+
+						<p:inputText id="cep" styleClass="input100"
+							value="#{clienteController.cliente.cep}" />
+						<p:inputText id="logradouro" styleClass="input100"
+							value="#{clienteController.cliente.logradouro}" />
+						<p:inputText id="numero" styleClass="input100"
+							value="#{clienteController.cliente.numero}" />
+
+						<p:outputLabel for="complemento" value="Complemento:"
+							styleClass="alignEsquerdo" />
+						<p:outputLabel for="bairro" value="Bairro:"
+							styleClass="alignEsquerdo" />
+						<p:outputLabel for="cidadeUF" value="Cidade/UF:"
+							styleClass="alignEsquerdo" />
+
+						<p:inputText id="complemento" styleClass="input100"
+							value="#{clienteController.cliente.complemento}" />
+						<p:inputText id="bairro" styleClass="input100"
+							value="#{clienteController.cliente.bairro}" />
+						<p:inputText id="cidadeUF" styleClass="input100"
+							value="#{clienteController.cliente.cidadeUF}" />
+
+					</p:panelGrid>
+				</h:panelGrid>
+				<br />
+				<h:outputLabel class="fa fa-pencil-square-o" />
+				<h:outputLabel value=" Observações:"
+					style="font-family: sans-serif;" />
+
+				<h:panelGrid style="background-color:#F5F5F5" width="100%">
+					<p:panelGrid style="background-color:#F5F5F5; width:100%; "
+						styleClass="ui-noborder">
+						<p:inputTextarea id="obs" style="width:99%" />
+					</p:panelGrid>
+				</h:panelGrid>
+
+				<p:commandButton value="Cadastrar" icon="fa fa-fw fa-check-circle-o"
+					style="background: #008040 !important; color: #FFFFFF;	font-size: 14px;"
+					action="#{clienteController.salvar()}" update="formNovoCliente" />
+
+				<p:commandButton value="Fechar" icon="fa fa-fw fa-remove"
+					rendered="#{clienteController.cliente.codigo == null}" process="@this"
+					immediate="true"
+					style="background: #cc3700 !important; color: #FFFFFF;	font-size: 14px;"
+					onclick="PF('dlg2').hide();" />
+
+				<p:commandButton value="Cancelar" icon="fa fa-fw fa-remove"
+					rendered="#{clienteController.cliente.codigo != null}" process="@this"
+					action="#{clienteController.limpaForm()}" update="formNovoCliente"
+					style="background: #cc3700 !important; color: #FFFFFF;	font-size: 14px;"
+					onclick="PF('dlg2').hide();" />
+			</h:form>
+		</p:dialog>
+		<!-- Fim - Cadastrar novo Cliente -->
+
+
+	</ui:define>
+</ui:composition>
+
+</html>

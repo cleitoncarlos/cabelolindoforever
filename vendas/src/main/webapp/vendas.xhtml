@@ -1,0 +1,748 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="_template.xhtml">
+	<ui:define name="conteudo">
+
+		<p:spacer height="" />
+		<p:panel style="background-color:#FFFFFF; border:none" width="100%;">
+			<h:outputLabel class="fa fa-fw fa-thumbs-up" />
+			<h:outputLabel value=" Listar Vendas de Produtos"
+				style="font-family: sans-serif;" />
+
+		</p:panel>
+
+		<p:commandButton id="btn-add-cliente" value="Vender"
+			action="#{vendaController.limpaForm()}" update="formNovaVenda"
+			icon="fa fa-fw fa-plus-circle" oncomplete="PF('dlgVenda').show();" />
+
+		<div>
+			<h:form id="formTableVendas">
+				<p:dataTable id="tabelaVendas" styleClass="ui-noborder table"
+					value="#{vendaController.vendas}" var="venda" style="align:center">
+
+					<!-- <p:column headerText="Data Cadastro" width="10%">
+						<h:outputText value="#{venda.dataCadastro.time}"
+							styleClass="alignEsquerdo">
+							<f:convertDateTime dateStyle="long"
+								timeZone="America/Campo_Grande" pattern="dd/MM/yyyy HH:mm" />
+						</h:outputText>
+					</p:column> -->
+
+					<p:column headerText="Data Venda" width="10%">
+						<h:outputText value="#{venda.dataVenda.time}"
+							styleClass="alignEsquerdo">
+							<f:convertDateTime dateStyle="long"
+								timeZone="America/Campo_Grande" pattern="dd/MM/yyyy HH:mm" />
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Cliente" width="13%">
+						<p:commandLink>
+							<h:outputText value="#{venda.cliente.nome}"
+								styleClass="alignEsquerdo" />
+						</p:commandLink>
+
+					</p:column>
+
+					<p:column headerText="Prazo de Entrega" width="10%">
+						<h:outputText value="#{venda.prazoEntrega.time}"
+							styleClass="alignEsquerdo">
+							<f:convertDateTime dateStyle="long"
+								timeZone="America/Campo_Grande" pattern="dd/MM/yyyy HH:mm" />
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Situação" width="10%">
+
+
+						<p:commandButton value="#{venda.situacaoVenda.descricao}" 
+							rendered="#{venda.situacaoVenda.descricao == 'concretizada'}"
+							style="background: #008040 !important; color: #FFFFFF; font-size: 14px;width:100%"
+							onclick="PF('dlgAltSitVenda').show();" process="@this"
+							update="formAltSitVenda">
+							<p:confirm header="Confirmação"
+								message="Deseja realmente alterar a Situação da Venda??"
+								icon="ui-icon-alert" />
+							<f:setPropertyActionListener value="#{venda}"
+								target="#{vendaController.venda}" />
+						</p:commandButton>
+
+						<p:commandButton value="#{venda.situacaoVenda.descricao}"
+							rendered="#{venda.situacaoVenda.descricao == 'em andamento'}"
+							style="background: #ff8000 !important; color: #FFFFFF;	font-size: 14px;width:100%"
+							onclick="PF('dlgAltSitVenda').show();" process="@this"
+							update="formAltSitVenda">
+							<p:confirm header="Confirmação"
+								message="Deseja realmente alterar a Situação da Venda??"
+								icon="ui-icon-alert" />
+							<f:setPropertyActionListener value="#{venda}"
+								target="#{vendaController.venda}" />
+						</p:commandButton>
+
+						<p:commandButton value="#{venda.situacaoVenda.descricao}"
+							rendered="#{venda.situacaoVenda.descricao == 'encomenda'}"
+							style="background: #9a9a9a !important; color: #FFFFFF;	font-size: 13px; width:100%"
+							onclick="PF('dlgAltSitVenda').show();" process="@this"
+							update="formAltSitVenda">
+							<p:confirm header="Confirmação"
+								message="Deseja realmente alterar a Situação da Venda??"
+								icon="ui-icon-alert" />
+							<f:setPropertyActionListener value="#{venda}"
+								target="#{vendaController.venda}" />
+						</p:commandButton>
+
+						<p:commandButton value="#{venda.situacaoVenda.descricao}" width="30"
+							rendered="#{venda.situacaoVenda.descricao == 'cancelada'}"
+							style="background: #cc0000 !important; color: #FFFFFF;	font-size: 13px; width:100%"
+							onclick="PF('dlgAltSitVenda').show();" process="@this"
+							update="formAltSitVenda">
+							<p:confirm header="Confirmação"
+								message="Deseja realmente alterar a Situação da Venda??"
+								icon="ui-icon-alert" />
+							<f:setPropertyActionListener value="#{venda}"
+								target="#{vendaController.venda}" />
+						</p:commandButton>
+
+					</p:column>
+
+					<p:column headerText="Forma Pagamento " width="10%">
+						<h:outputText value="#{venda.formaPagamento.descricao}"
+							styleClass="alignEsquerdo">
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Data Prev Pagamento" style="width:10%;">
+						<h:outputText value="#{venda.dataPrevisaoPagamento}"
+							styleClass="alignEsquerdo">
+							<f:convertDateTime dateStyle="long"
+								timeZone="America/Campo_Grande" pattern="dd/MM/yyyy" />
+						</h:outputText>
+					</p:column>
+					
+					<p:column headerText="Status" style="width:5%;">
+						<h:outputText value=""
+							styleClass="alignEsquerdo" />
+					</p:column>
+
+					<p:column headerText="Data Pagamento" style="width:10%;">
+						<h:outputText value="#{venda.dataPagamento}"
+							styleClass="alignEsquerdo">
+							<f:convertDateTime dateStyle="long"
+								timeZone="America/Campo_Grande" pattern="dd/MM/yyyy" />
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Valor" style="width:5%;">
+						<h:outputText value="#{venda.valorTotal}"
+							styleClass="alignEsquerdo" />
+					</p:column>
+
+
+
+					<p:column headerText="Ação" style="width:8%;">
+						<p:commandButton id="btn-search" icon="fa fa-search"
+							action="#{vendaController.editarVenda(venda)}"
+							style="background: #6bb6ff !important; color: #FFFFFF;	font-size: 12px;"
+							update=":formDetalheVenda"
+							oncomplete="PF('dlgDetalheVenda').show();">
+							<f:setPropertyActionListener value="#{venda}"
+								target="#{vendaController.venda}" />
+						</p:commandButton>
+						<p:commandButton id="btn-edit" icon="fa fa-edit"
+							action="#{vendaController.editarVenda(venda)}"
+							style="background: #ffa500 !important; color: #FFFFFF;	font-size: 12px;"
+							update=":formNovaVenda" oncomplete="PF('dlgVenda').show();">
+							<f:setPropertyActionListener value="#{venda}"
+								target="#{vendaController.venda}" />
+						</p:commandButton>
+
+						<p:commandButton id="btn-remove" icon="fa fa-fw fa-remove"
+							style="background: #cc3700 !important; color: #FFFFFF;	font-size: 12px;"
+							action="#{vendaController.remover(venda)}" update="@form">
+							<p:confirm header="Confirmação" message="Confirma a exclusão?"
+								icon="ui-icon-alert" />
+						</p:commandButton>
+					</p:column>
+
+				</p:dataTable>
+			</h:form>
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<center>
+					<p:commandButton value="Continuar" type="button"
+						style="background: #008040 !important; color: #FFFFFF;	font-size: 14px;"
+						styleClass="ui-confirmdialog-yes"
+						icon="fa fa-fw fa-check-circle-o" />
+					<p:commandButton value="Cancelar" type="button"
+						style="background: #cc3700 !important; color: #FFFFFF;	font-size: 14px;"
+						styleClass="ui-confirmdialog-no" icon="fa fa-fw fa-remove" />
+				</center>
+			</p:confirmDialog>
+		</div>
+		<br />
+		<br />
+		<br />
+
+		<!-- Dialog - Alterar Situação de Venda -->
+		<p:dialog id="dlgAltSitVenda" header="Alterar Situação Venda"
+			widgetVar="dlgAltSitVenda" modal="false" resizable="false">
+
+			<h:form id="formAltSitVenda">
+				<h:outputLabel value=" Selecione a Nova Situação de Venda"
+					style="font-family: sans-serif; font-size: 14px;" />
+				<br />
+				<br />
+
+				<p:selectOneMenu id="situacao"
+					requiredMessage="O Campo Situação da Venda é Obrigatório!"
+					style="width:45%; border-color: #cccccc !important; font-size: 13px !important;"
+					value="#{vendaController.venda.situacaoVenda}">
+					<f:selectItem itemLabel="selecione a situação da venda"
+						itemValue="#{null}" />
+					<f:selectItems value="#{vendaController.situacaoVenda}"
+						var="situacao" itemValue="#{situacao}"
+						itemLabel="#{situacao.descricao}" />
+				</p:selectOneMenu>
+
+				<p:separator />
+				<p:commandButton value="Alterar" icon="fa fa-fw fa-check-circle-o"
+					style="background: #008040 !important; color: #FFFFFF;	font-size: 14px;"
+					action="#{vendaController.salvar()}" update="formTableVendas"
+					oncomplete="PF('dlgAltSitVenda').hide();" />
+
+				<p:commandButton value="Cancelar" icon="fa fa-fw fa-remove"
+					process="@this" action="#{vendaController.limpaForm()}"
+					style="background: #cc3700 !important; color: #FFFFFF;	font-size: 14px;"
+					onclick="PF('dlgAltSitVenda').hide();" />
+			</h:form>
+		</p:dialog>
+
+		<!-- Dialogo Detalhes da Venda  -->
+		<p:dialog id="dlgDetalheVenda" widgetVar="dlgDetalheVenda"
+			modal="false" width="80%" height="500" resizable="false">
+			<h:form id="formDetalheVenda">
+				<p:panelGrid columns="2"
+					style="background-color:#F5F5F5; width:100%; "
+					styleClass="ui-noborder">
+
+					<h:panelGroup>
+						<h:outputLabel class="fa fa-list-alt" />
+						<h:outputLabel value=" Detalhe da Venda"
+							style="font-family: sans-serif;" />
+					</h:panelGroup>
+					<h:panelGroup>
+						<div align="right">
+							Data:
+							<h:outputText value="#{vendaController.venda.dataCadastro.time}">
+								<f:convertDateTime dateStyle="long"
+									timeZone="America/Campo_Grande" pattern="dd/MM/yyyy HH:mm" />
+							</h:outputText>
+						</div>
+					</h:panelGroup>
+
+				</p:panelGrid>
+				<p:separator />
+				<p:panelGrid columns="1"
+					style="background-color:#F5F5F5; width:100%; "
+					styleClass="ui-noborder">
+					<p style="font-family: Times New Roman, Times, sans-serif">Cliente</p>
+					<p:outputLabel value="#{vendaController.venda.cliente.nome}" />
+					<p:outputLabel
+						rendered="#{vendaController.venda.cliente.logradouro != null}"
+						value="#{vendaController.venda.cliente.logradouro}, #{vendaController.venda.cliente.numero} - #{vendaController.venda.cliente.complemento}" />
+					<p:outputLabel value="#{vendaController.venda.cliente.bairro}" />
+					<p:outputLabel value="#{vendaController.venda.cliente.cep}" />
+					<p:outputLabel value="#{vendaController.venda.cliente.cidadeUF}" />
+
+				</p:panelGrid>
+				<br />
+				<p:dataTable id="tabelaVendas" styleClass="ui-noborder tableDetalhe"
+					value="#{vendaController.itens}" var="item" style="align:center">
+
+					<p:column headerText="Qtd" width="10%" style="text-align:center">
+						<h:outputText value="#{item.quantidade}"
+							styleClass="alignEsquerdo">
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Produto" width="10%"
+						style="text-align:center">
+						<h:outputText value="#{item.produto.nomeProduto}"
+							styleClass="alignEsquerdo">
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Preço Unitario" width="13%"
+						style="text-align:center">
+						<h:outputText value="#{item.produto.valorVenda}"
+							styleClass="alignEsquerdo" />
+					</p:column>
+
+					<p:column headerText="Total" width="10%" style="text-align:center">
+						<h:outputText value="#{item.valorTotal}"
+							styleClass="alignEsquerdo">
+						</h:outputText>
+					</p:column>
+
+				</p:dataTable>
+				<br />
+				<br />
+				<div align="right">
+
+					<p:panelGrid columns="2"
+						style="background-color:#F5F5F5; width:80%; text-align:right"
+						styleClass="ui-noborder">
+						<p:outputLabel value="Produtos:" />
+						<p:outputLabel value="R$ #{vendaController.venda.valorTotal}" />
+
+						<p:outputLabel value="Frete:" />
+						<p:outputLabel value="R$ 0.0" />
+
+						<p:outputLabel value="Total:" />
+						<p:outputLabel value="R$ #{vendaController.venda.valorTotal}" />
+
+					</p:panelGrid>
+				</div>
+
+
+				<!-- <p:panelGrid columns="4" style="width:100%">
+
+					<p:outputLabel value="Qtd" />
+					<p:outputLabel value="Produto" />
+					<p:outputLabel value="Preco Unitario" />
+					<p:outputLabel value="Total" />
+				</p:panelGrid>
+				<hr />
+				<p:repeat value="#{vendaController.venda.itens}" var="item">
+
+
+					<h:panelGrid columns="2" style="width:100%">
+
+						<p:outputPanel>
+							<p:panelGrid columns="4" style="width:100%">
+
+								<p:column>
+									<p:outputLabel value="#{item.quantidade}" />
+								</p:column>
+								<p:column colspan="2" width="15%">
+									<p:outputLabel value="#{item.produto.nomeProduto}" />
+								</p:column>
+								<p:column>
+									<p:outputLabel value="#{item.produto.valorVenda}" />
+								</p:column>
+								<p:column>
+									<p:outputLabel value="Total" />
+								</p:column>
+
+							</p:panelGrid>
+						</p:outputPanel>
+					</h:panelGrid>
+					<hr />
+				</p:repeat> -->
+			</h:form>
+		</p:dialog>
+
+		<!-- Dialog - Cadastrar nova Venda -->
+		<p:dialog id="dlgNovaVenda" header="Nova Venda" widgetVar="dlgVenda"
+			modal="false" width="100%" height="600" resizable="false">
+			<br />
+			<h:form id="formNovaVenda">
+
+				<!-- <p:messages autoUpdate="true" closable="true" /> -->
+				<!-- <p:growl id="message" autoUpdate="true" /> -->
+				<p:growl id="message" showDetail="false" sticky="false" life="2000"
+					autoUpdate="true" styleClass="ui-growl-message-green" />
+				<p:panelGrid columns="4"
+					style="background-color:#F5F5F5; width:100%; "
+					styleClass="ui-noborder">
+					<h:panelGroup>
+						<h:outputLabel class="fa fa-list-alt" />
+						<h:outputLabel value=" Dados Gerais"
+							style="font-family: sans-serif;" />
+					</h:panelGroup>
+					<h:outputLabel
+						value=" Os campos marcados com * são de preenchimento Obrigatorio!"
+						styleClass="alignDireito" />
+					<h:panelGroup>	
+					Data:	
+					<h:outputText value="#{vendaController.venda.dataCadastro.time}">
+							<f:convertDateTime dateStyle="long"
+								timeZone="America/Campo_Grande" pattern="dd/MM/yyyy HH:mm" />
+						</h:outputText>
+					</h:panelGroup>
+				</p:panelGrid>
+
+				<h:panelGrid style="background-color:#F5F5F5" width="100%">
+					<p:panelGrid columns="4"
+						style="background-color:#F5F5F5; width:100%; "
+						styleClass="ui-noborder">
+
+						<p:panelGrid columns="5" style="width:100%; ">
+
+							<p:outputLabel for="cliente" value="Cliente:"
+								styleClass="alignEsquerdo" />
+
+							<p:outputLabel for="dataVenda" value="Data da Venda:"
+								styleClass="alignEsquerdo" />
+
+							<p:outputLabel for="prazoEntrega" value="Prazo de Entrega:"
+								styleClass="alignEsquerdo" />
+
+							<p:outputLabel for="situacao" value="Situação Venda:"
+								styleClass="alignEsquerdo" />
+
+							<p:commandButton icon="fa fa-fw fa-plus-circle"
+								title="cadastrar Cliente"
+								style="background: #008040 !important; color: #FFFFFF;	font-size: 14px;" />
+
+							<p:autoComplete id="cliente" size="45" required="true"
+								requiredMessage="Informe um cliente para a venda!"
+								value="#{vendaController.venda.cliente}"
+								completeMethod="#{vendaController.completeCliente}"
+								var="cliente" itemLabel="#{cliente.nome}" itemValue="#{cliente}"
+								converter="#{geralConverter}" forceSelection="true"
+								style="width:45%; border-color: #cccccc !important; font-size: 13px !important;" />
+
+
+							<p:calendar id="dataVenda" styleClass="input100" required="true"
+								requiredMessage="informe a data da venda!"
+								timeZone="America/Campo_Grande" locale="pt_BR"
+								pattern="dd/MM/yyyy" value="#{vendaController.venda.dataVenda}">
+
+							</p:calendar>
+
+							<p:calendar id="prazoEntrega" styleClass="input100"
+								timeZone="America/Campo_Grande" locale="pt_BR"
+								pattern="dd/MM/yyyy" required="true"
+								value="#{vendaController.venda.prazoEntrega}" />
+
+
+							<h:panelGroup>
+								<h:column>
+									<p:selectOneMenu id="situacao" required="true"
+										requiredMessage="O Campo Situação da Venda é Obrigatório!"
+										style="width:45%; border-color: #cccccc !important; font-size: 13px !important;"
+										value="#{vendaController.venda.situacaoVenda}">
+										<f:selectItem itemLabel="selecione a situação da venda"
+											itemValue="#{null}" />
+										<f:selectItems value="#{vendaController.situacaoVenda}"
+											var="situacao" itemValue="#{situacao}"
+											itemLabel="#{situacao.descricao}" />
+									</p:selectOneMenu>
+								</h:column>
+								<p:spacer />
+								<h:column>
+
+								</h:column>
+							</h:panelGroup>
+						</p:panelGrid>
+
+					</p:panelGrid>
+
+				</h:panelGrid>
+
+				<h:outputLabel class="fa fa-tasks" />
+				<h:outputLabel value=" Produtos" style="font-family: sans-serif;" />
+
+				<h:panelGrid style="background-color:#F5F5F5" width="100%">
+					<p:panelGrid columns="1"
+						style="background-color:#F5F5F5; width:100%; "
+						styleClass="ui-noborder">
+
+						<p:panelGrid id="panelItensProduto" columns="6"
+							style="width:100%; ">
+
+
+							<p:outputLabel for="produto" value="Produto:"
+								styleClass="alignEsquerdo" />
+							<p:outputLabel for="valorProduto" value="Valor do Produto:"
+								styleClass="alignEsquerdo" />
+							<p:outputLabel for="quantidade" value="Quantidade:"
+								styleClass="alignEsquerdo" />
+							<p:outputLabel for="desconto" value="Desconto:"
+								styleClass="alignEsquerdo" />
+							<p:outputLabel for="valor" value="Valor Total:"
+								styleClass="alignEsquerdo" />
+
+							<h:panelGroup>
+								<p:commandButton id="btnAdicinaItens"
+									icon="fa fa-fw fa-plus-circle" value="incluir"
+									action="#{vendaController.adionaIntens()}"
+									style="background: #008040 !important; color: #FFFFFF;	font-size: 14px;"
+									process="btnAdicinaItens,produto,quantidade,valor,desconto"
+									update="tabelaItensProduto,panelItensProduto,panelTotal" />
+
+								<p:commandButton id="btnCancelaItens" icon="fa fa-fw fa-remove"
+									action="#{vendaController.limpaFormItens()}"
+									style="background: #cc3700 !important; color: #FFFFFF;	font-size: 14px;"
+									process="@this" update="panelItensProduto" />
+							</h:panelGroup>
+
+							<p:autoComplete id="produto" styleClass="input100" size="45"
+								value="#{vendaController.itensVenda.produto}"
+								completeMethod="#{vendaController.completeProduto}"
+								var="produto" itemLabel="#{produto.nomeProduto}"
+								itemValue="#{produto}" converter="#{produtoConverter}"
+								forceSelection="true"
+								style="width:100; border-color: #cccccc !important; font-size:14px ">
+
+								<p:ajax event="itemSelect"
+									listener="#{vendaController.selecionaItem()}"
+									update="valorProduto" process="produto" />
+
+								<p:column style="text-align:center" headerText="estoque">
+									<h:outputText value="#{produto.estoqueAtual}" />
+								</p:column>
+
+								<p:column headerText="produto">
+									<h:outputText value="#{produto.nomeProduto}"
+										rendered="#{produto.estoqueAtual >0}" />
+								</p:column>
+
+							</p:autoComplete>
+
+
+							<p:outputLabel id="valorProduto"
+								style="width:100%; font-size: 30px;"
+								value="#{vendaController.itensVenda.produto.valorVenda}" />
+
+							<p:inputNumber id="quantidade" styleClass="input100" size="10"
+								required="true" value="#{vendaController.itensVenda.quantidade}">
+								<p:ajax event="keyup" update="valor"
+									process="produto,quantidade,desconto"
+									listener="#{vendaController.calculaValor()}" delay="1500" />
+							</p:inputNumber>
+
+
+							<h:panelGroup>
+								<h:column>
+									<p:inputNumber id="desconto" styleClass="input100" size="10"
+										value="#{vendaController.itensVenda.desconto}"
+										decimalSeparator="," thousandSeparator="." symbol="R$ ">
+										<p:ajax event="keyup" update="valor"
+											process="produto,quantidade,desconto"
+											listener="#{vendaController.calculaValor()}" delay="1500" />
+									</p:inputNumber>
+								</h:column>
+								<p:spacer />
+								<h:column>
+
+								</h:column>
+							</h:panelGroup>
+
+							<p:outputLabel id="valor" style="width:100%; font-size: 30px;"
+								value="#{vendaController.itensVenda.valorTotal}">
+							</p:outputLabel>
+
+						</p:panelGrid>
+
+						<p:panelGrid columns="1" style="width:100%; ">
+
+							<p:dataTable id="tabelaItensProduto"
+								value="#{vendaController.itens}" styleClass="ui-noborder table"
+								var="item" style="align:center">
+
+								<p:column headerText="Produto" width="15%">
+									<h:outputText value="#{item.produto.nomeProduto}"
+										styleClass="alignEsquerdo" />
+								</p:column>
+
+
+								<p:column headerText="Valor Produto" width="10%">
+									<h:outputText value="#{item.produto.valorVenda}"
+										styleClass="alignEsquerdo" />
+								</p:column>
+
+								<p:column headerText="Quantidade" width="5%">
+									<h:outputText value="#{item.quantidade}"
+										styleClass="alignEsquerdo" />
+								</p:column>
+
+								<p:column headerText="Total s/ desconto" style="width:10%;">
+									<h:outputText value="#{item.subTotal}"
+										styleClass="alignEsquerdo" />
+								</p:column>
+
+								<p:column headerText="Desconto" width="10%">
+									<h:outputText value="#{item.desconto}"
+										styleClass="alignEsquerdo" />
+								</p:column>
+
+								<p:column headerText="SubTotal" style="width:7%;">
+									<h:outputText value="#{item.valorTotal}"
+										styleClass="alignEsquerdo" />
+								</p:column>
+
+
+								<p:column headerText="Ação" style="width:3%;">
+
+									<p:commandButton icon="fa fa-fw fa-remove"
+										title="excluir produto" process="@this" immediate="true"
+										actionListener="#{vendaController.removeItens(item)}"
+										update="tabelaItensProduto, formNovaVenda:panelTotal"
+										style="background: #cc3700 !important; color: #FFFFFF;	font-size: 10px;" />
+
+								</p:column>
+
+							</p:dataTable>
+							<br />
+							<br />
+						</p:panelGrid>
+					</p:panelGrid>
+				</h:panelGrid>
+
+				<h:outputLabel class="fa fa-shopping-bag" />
+				<h:outputLabel value=" Total" style="font-family: sans-serif;" />
+
+				<h:panelGrid id="panelTotal" style="background-color:#F5F5F5"
+					width="100%">
+					<p:panelGrid columns="4"
+						style="background-color:#F5F5F5; width:100%; "
+						styleClass="ui-noborder">
+
+						<p:panelGrid columns="4" style="width:100%; ">
+
+							<p:outputLabel for="qtdProdutos" value="Quantidade de Produtos:"
+								styleClass="alignEsquerdo" />
+
+							<p:outputLabel for="totalDesconto" value="Total de Descontos:"
+								styleClass="alignEsquerdo" />
+
+							<p:outputLabel for="vTotalSemDesconto" value="Total s/ Desconto:"
+								styleClass="alignEsquerdo" />
+
+							<p:outputLabel for="vTotalComDesconto"
+								value="Total c/ Descontos:" styleClass="alignEsquerdo" />
+
+							<p:panel style="background-color:#008000 !important;">
+
+								<p:outputLabel id="qtdProdutos"
+									style="width:100%; font-size: 30px;"
+									value="#{vendaController.venda.quantidadeTotal}" />
+							</p:panel>
+
+
+							<p:outputLabel id="totalDesconto"
+								style="width:100%;  font-size: 30px; color:red"
+								value="#{vendaController.totalDesconto}" />
+
+
+
+							<p:outputLabel id="vTotalSemDesconto"
+								style="width:100%;  font-size: 30px; color:green"
+								value="#{vendaController.valorTotalSemDesconto}" />
+
+
+
+							<p:outputLabel id="vTotalComDesconto"
+								style="width:100%;  font-size: 30px; color:blue"
+								value="#{vendaController.venda.valorTotal}" />
+
+						</p:panelGrid>
+
+					</p:panelGrid>
+
+				</h:panelGrid>
+
+				<h:outputLabel class="fa fa-money" />
+				<h:outputLabel value=" Pagamento" style="font-family: sans-serif;" />
+
+				<h:panelGrid style="background-color:#F5F5F5" width="100%">
+					<p:panelGrid columns="3"
+						style="background-color:#F5F5F5; width:100%; "
+						styleClass="ui-noborder">
+
+						<p:panelGrid columns="4" style="width:100%; ">
+
+							<p:outputLabel for="formaPagamento" value="Forma de Pagamento: "
+								styleClass="alignEsquerdo" />
+
+							<p:outputLabel for="dataPrevPagamento"
+								value="Data de Prev. Pagamento: " styleClass="alignEsquerdo" />
+
+							<p:outputLabel for="dataPagamento" value="Data do Pagamento: "
+								styleClass="alignEsquerdo" />
+
+							<p:outputLabel for="qtdParcela" value="Quantidade de Parcela: "
+								styleClass="alignEsquerdo" />
+
+							<p:selectOneMenu id="formaPagamento" required="true"
+								requiredMessage="O Campo Forma de Pagamento é Obrigatório!"
+								style="width:40%; border-color: #cccccc !important; font-size: 13px !important;"
+								value="#{vendaController.venda.formaPagamento}">
+								<f:selectItem itemLabel="selecione a forma de pagamento"
+									itemValue="#{null}" />
+								<f:selectItems value="#{vendaController.formaPagamento}"
+									var="fpagamento" itemValue="#{fpagamento}"
+									itemLabel="#{fpagamento.descricao}" />
+
+								<p:ajax event="change"
+									process="dataVenda,formaPagamento,dataPagamento"
+									update="dataPrevPagamento,dataPagamento"
+									listener="#{vendaController.verificaFormaPagamento()}" />
+
+							</p:selectOneMenu>
+
+							<p:calendar id="dataPrevPagamento" styleClass="input100"
+								required="true" timeZone="America/Campo_Grande" locale="pt_BR"
+								pattern="dd/MM/yyyy"
+								value="#{vendaController.venda.dataPrevisaoPagamento}">
+
+							</p:calendar>
+
+							<p:calendar id="dataPagamento" styleClass="input100"
+								disabled="#{vendaController.venda.formaPagamento.descricao == 'À Prazo'}"
+								timeZone="America/Campo_Grande" locale="pt_BR"
+								pattern="dd/MM/yyyy"
+								value="#{vendaController.venda.dataPagamento}" />
+
+							<p:inputNumber id="qtdParcela" styleClass="input100"
+								value="#{vendaController.venda.quandidadeParcela}" />
+
+						</p:panelGrid>
+
+					</p:panelGrid>
+				</h:panelGrid>
+
+
+				<h:outputLabel class="fa fa-pencil-square-o" />
+				<h:outputLabel value=" Observações:"
+					style="font-family: sans-serif;" />
+
+				<h:panelGrid style="background-color:#F5F5F5" width="100%">
+					<p:panelGrid style="background-color:#F5F5F5; width:100%; "
+						styleClass="ui-noborder">
+						<p:inputTextarea id="obs" style="width:99%" />
+					</p:panelGrid>
+				</h:panelGrid>
+
+
+				<p:commandButton value="Cadastrar" icon="fa fa-fw fa-check-circle-o"
+					style="background: #008040 !important; color: #FFFFFF;	font-size: 14px;"
+					action="#{vendaController.salvar()}" update="formTableVendas"
+					oncomplete="PF('dlgVenda').hide();" />
+
+				<p:commandButton id="btnCancelaVenda" value="Cancelar"
+					icon="fa fa-fw fa-remove" process="@this" immediate="true"
+					style="background: #cc3700 !important; color: #FFFFFF;	font-size: 14px;"
+					onclick="PF('dlgVenda').hide();" />
+			</h:form>
+		</p:dialog>
+		<!-- Fim - Cadastrar novo Produto -->
+
+
+		<p:dialog header="Incluir Produto" widgetVar="dlgIncProduto"
+			modal="false" width="80%" height="300" resizable="false">
+		</p:dialog>
+
+
+	</ui:define>
+
+</ui:composition>
+
+</html>

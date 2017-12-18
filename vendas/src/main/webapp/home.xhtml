@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="_template.xhtml">
+	<ui:define name="conteudo">
+
+		<h:form>
+
+			<div>
+				<p:panel >
+					<p:growl id="msgs" showDetail="true" />
+
+					<p:dashboard id="board" model="#{dashboard.model}"
+						style="width:100%">
+						<p:ajax event="reorder" listener="#{dashboard.handleReorder}"
+							update="msgs" />
+
+						<p:panel id="contaReceber" header="Contas a Receber">
+						</p:panel>
+
+						<p:panel id="contaPagar" header="Conta a Pagar">
+						</p:panel>
+
+						<p:panel id="vendas" header="Vendas">
+						</p:panel>
+
+						<p:panel id="agenda" header="Agenda">
+
+						</p:panel>
+
+
+					</p:dashboard>
+
+					<div style="clear: both" />
+				</p:panel>
+			</div>
+
+			<p:dialog widgetVar="eventDialog" header="Detalhes do Evento"
+				showEffect="clip" hideEffect="clip">
+				<h:panelGrid id="eventDetails" columns="2">
+					<p:outputLabel for="title" value="Titles:" />
+					<p:inputText id="title" value="#{scheduleView.event.title}"
+						required="true" />
+
+					<p:outputLabel for="from" value="From:" />
+					<p:calendar id="from" value="#{scheduleView.event.startDate}"
+						timeZone="GMT-4" pattern="dd/MM/yyyy HH:mm" />
+
+					<p:outputLabel for="to" value="To:" />
+					<p:calendar id="to" value="#{scheduleView.event.endDate}"
+						timeZone="GMT-4" pattern="dd/MM/yyyy HH:mm" />
+
+					<p:outputLabel for="allDay" value="All Day:" />
+					<h:selectBooleanCheckbox id="allDay"
+						value="#{scheduleView.event.allDay}" />
+
+					<p:commandButton type="reset" value="Reset" />
+					<p:commandButton id="addButton" value="Save"
+						actionListener="#{scheduleView.addEvent}"
+						oncomplete="PF('myschedule').update();PF('eventDialog').hide();" />
+				</h:panelGrid>
+			</p:dialog>
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,288 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions">
+
+<h:head>
+
+	<style type="text/css">
+.ui-growl {
+	position: absolute;
+	top: 70px;
+	left: 40%;
+	width: 20%;
+	text-align: center !important;
+}
+
+.tabsView ul {
+	background: #F5F5F5;
+}
+
+.ui-tabs .ui-tabs-nav li a :ACTIVE {
+	background: -moz-linear-gradient(center top, rgba(255, 255, 255, 0.6),
+		rgba(255, 255, 255, 0)) repeat scroll 0 0 #C3D79C;
+	color: graytext;
+	background-color: #e2e2e2;
+}
+
+.ui-tabs .ui-tabs-nav li a {
+	border: none !important;
+	color: graytext;
+	font-weight: bold;
+	background-color: #e2e2e2;
+	border-color: black;
+}
+
+.ui-tabs .ui-tabs-nav li a:hover {
+	background: -moz-linear-gradient(center top, rgba(255, 255, 255, 0.6),
+		rgba(255, 255, 255, 0)) repeat scroll 0 0 #C3D79C;
+	border: none;
+	box-shadow: 0 0 8px #000;
+	color: #676767;
+	font-weight: bold;
+	background-color: #f4f4f4;
+}
+/* .ui-tabs .ui-tabs-nav li .ui-icon { 
+    float: left; 
+    margin: 0.4em 0.2em 0 0; 
+    cursor: pointer; 
+    color: black;
+}
+
+.ui-tabs .ui-tabs-panel{
+     margin-top: -7pt;
+    border: medium none;
+    padding: 0 !important;
+    padding-top: 0.2em !important; 
+     color: black;
+} */
+
+/*  selectOneMenu  */
+.ui-icon.ui-icon-triangle-1-s.ui-c {
+	color: red !important;
+}
+
+.menu .ui-selectonemenu-label {
+	background: white;
+}
+
+.container.ui-selectonemenu-trigger {
+	border-color: #cccccc !important;
+	background-color: darkgrey !important;
+	color: black;
+}
+
+.panel .ui-selectonemenu-list {
+	background: none;
+}
+/* fim selectOneMenu  */
+.input100 {
+	font-size: 13px !important;
+	width: 100% !important;
+	font-family: sans-serif;
+	color: #666666 !important;
+}
+
+.inputDis input {
+	background: #ececec !important;
+	border-bottom-color: #ececec !important;
+	font-weight: 900 !important;
+	color: green;;
+}
+
+.alignEsquerdo {
+	text-align: center;
+	font-size: 13px !important;
+	font-family: sans-serif;
+	color: #858585 !important;
+	font-weight: 700;
+}
+
+.alignDireito {
+	text-align: right !important;
+	font-size: 13px !important;
+	font-family: sans-serif;
+	color: #858585 !important;
+	font-weight: 700;
+}
+
+#btn-add-cliente, #btn-edit {
+	background: #008040 !important;
+	color: #FFFFFF;
+	font-size: 14px;
+}
+
+.table th {
+	color: #858585 !important;
+	background: #f2f2f2 !important;
+	border-color: #d9d9d9;
+	font-size: 14px;
+}
+
+.table tbody td {
+	border-color: #d9d9d9;
+}
+
+.tableDetalhe th {
+	color: #000000 !important;
+	background: #FFFFFF !important;
+	border-color: #FFFFFF !important;
+	border-bottom: #F2F2F2 !important;
+	font-size: 14px;
+}
+
+.tableDetalhe tbody td {
+	border-color: #FFFFFF;
+	border-bottom-color: #000000;
+	border-top-color: #000000;
+}
+
+.table tfoot td, th, tr {
+	border-color: #d9d9d9;
+	background: #FFFFFF !important;
+	color: #000000 !important;
+	border-color: #d9d9d9 !important;
+}
+
+.ui-dialog .ui-dialog-titlebar {
+	color: #858585 !important;
+	background: #f2f2f2 !important;
+	border-color: #d9d9d9;
+	font-size: 12px;
+}
+
+/* .ui-datatable-header {
+	background: blue;
+}
+.ui-datatable tbody td {
+    border-color: #d9d9d9;
+} */
+</style>
+
+	<script type="text/javascript">
+		PrimeFaces.locales['pt_BR'] = {
+			closeText : 'Fechar',
+			prevText : 'Anterior',
+			nextText : 'Próximo',
+			currentText : 'Começo',
+			monthNames : [ 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio',
+					'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro',
+					'Novembro', 'Dezembro' ],
+			monthNamesShort : [ 'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
+					'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez' ],
+			dayNames : [ 'Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta',
+					'Sexta', 'Sábado' ],
+			dayNamesShort : [ 'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb' ],
+			dayNamesMin : [ 'D', 'S', 'T', 'Q', 'Q', 'S', 'S' ],
+			weekHeader : 'Semana',
+			firstDay : 1,
+			isRTL : false,
+			showMonthAfterYear : false,
+			yearSuffix : '',
+			timeOnlyTitle : 'Selecione o Horário',
+			timeText : 'Horário',
+			hourText : 'Horas',
+			minuteText : 'Minutos',
+			secondText : 'Segundos',
+			currentText : 'Data Atual',
+			ampm : false,
+			month : 'Mês',
+			week : 'Semana',
+			day : 'Dia',
+			allDayText : 'Todo Dia'
+		};
+	</script>
+
+</h:head>
+<h:body style="background-color:#ffffff">
+	<p:layout fullPage="true">
+		<p:layoutUnit position="center" style="border:0; margin-top:none; ">
+			<h:form>
+				<p:messages id="messages" closable="true" />
+				<!-- <p:graphicImage library="images" name="consulta_link.png"
+					width="100%" /> -->
+				<p:menubar toggleable="true" style="font-size:18px;">
+
+					<p:submenu label="Cadastros" icon="fa fa-fw fa-pencil-square-o ">
+						<p:menuitem value="Clientes" icon="fa fa-fw fa-users"
+							outcome="clientes.xhtml" />
+						<p:menuitem value="Fornecedores" icon="fa fa-fw fa-industry"
+							disable="true" />
+						<p:menuitem value="Transportadoras" icon="fa fa-fw	 fa-truck" />
+					</p:submenu>
+					<p:submenu label="Produtos" icon="fa fa-fw fa-plus-square-o">
+						<p:menuitem value="Gerenciar Produtos" icon="fa fa-fw fa-cube"
+							outcome="produtos.xhtml" />
+
+					</p:submenu>
+					<p:submenu label="Vendas" icon="fa fa-fw fa-shopping-bag">
+						<p:menuitem value="Produtos" icon="fa fa-fw fa-list-alt"
+							outcome="vendas.xhtml" />
+						<p:menuitem value="Balcão" icon="fa fa-fw fa-laptop" />
+						<p:menuitem value="Devoluções" icon="fa fa-fw 	fa-rotate-left" />
+
+					</p:submenu>
+					<p:submenu label="Estoque">
+						<p:menuitem value="Curva ABC" icon="fa fa-fw fa-line-chart"
+							outcome="curvaABC.xhtml" />
+						<p:menuitem value="Ajustes" icon="fa fa-fw fa-exchange" />
+						<p:menuitem value="Movimentações" icon="fa fa-fw fa-refresh" />
+						<p:menuitem value="Cotações" icon="fa fa-fw fa-file-text" />
+						<p:menuitem value="Compras" icon="fa fa-fw fa-shopping-cart" />
+					</p:submenu>
+
+					<p:submenu label="Financeiro" icon="fa fa-fw fa-dollar">
+						<p:menuitem value="Contas a Pagar"
+							icon="fa fa-fw fa-angle-double-down" />
+						<p:menuitem value="Contas a Receber"
+							icon="fa fa-fw fa-angle-double-up" />
+						<p:menuitem value="Fluxo de Caixa" icon="fa fa-fw fa-bar-chart" />
+						<p:menuitem value="Formas de Pagamento" icon="fa fa-fw fa-money" />
+						<p:menuitem value="Boletos Bancários" icon="fa fa-fw fa-barcode" />
+					</p:submenu>
+
+					<p:menuitem value="Agenda" icon="fa fa-fw fa-calendar"
+						outcome="agenda.xhtml" />
+
+					<f:facet name="options">
+						<p:button icon="ui-icon-home" />
+					</f:facet>
+				</p:menubar>
+			</h:form>
+			<ui:insert name="conteudo">
+
+
+			</ui:insert>
+
+		</p:layoutUnit>
+
+
+
+		<p:layoutUnit position="south" size="30" resizable="true"
+			closable="true" collapsible="true">
+			<div align="center" style="font-size: 10px;">
+				<h:outputText value=" ©Copyright Cabelo Lindo Forever 2017" />
+			</div>
+		</p:layoutUnit>
+
+	</p:layout>
+	<p:ajaxStatus id="carregando" onstart="PF('dlgStatus').show()"
+		oncomplete="PF('dlgStatus').hide()" />
+	<p:dialog id="janela" widgetVar="dlgStatus" header="Aguarde..."
+		width="200" height="50" modal="false" closable="false"
+		closeOnEscape="false" draggable="false" resizable="false">
+		<p:graphicImage library="images" name="loading-big.gif" height="32"
+			width="32" />
+		<p:outputLabel value="Processando..." style="font-size: 14px" />
+	</p:dialog>
+
+
+
+
+
+</h:body>
+</html>
+

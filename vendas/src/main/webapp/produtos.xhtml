@@ -1,0 +1,585 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="_template.xhtml">
+	<ui:define name="conteudo">
+
+		<p:spacer height="" />
+		<p:panel style="background-color:#FFFFFF; border:none" width="100%;">
+			<h:outputLabel class="fa fa-list-alt" />
+			<h:outputLabel value=" Lista de Produtos"
+				style="font-family: sans-serif;" />
+
+		</p:panel>
+
+		<p:commandButton id="btn-add-cliente" value="Adicionar Produto"
+			icon="fa fa-fw fa-plus-circle" onclick="PF('dlgProduto').show();" />
+
+		<div>
+
+
+			<p:dataTable id="tabelaProdutos" styleClass="ui-noborder table"
+				value="#{produtoController.produtos}" var="produto"
+				style="align:center">
+
+				<p:column headerText="Data Cadastro" width="15%">
+					<h:outputText value="#{produto.dataCadastro.time}"
+						styleClass="alignEsquerdo">
+						<f:convertDateTime dateStyle="long" pattern="dd/MM/yyyy HH:mm" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Codigo Interno" width="10%">
+					<h:outputText value="#{produto.codigoInterno}"
+						styleClass="alignEsquerdo" />
+				</p:column>
+
+				<p:column headerText="Nome">
+					<h:outputText value="#{produto.nomeProduto}"
+						styleClass="alignEsquerdo" />
+				</p:column>
+
+				<p:column headerText="Estoque" width="7%">
+					<h:outputText value="#{produto.estoqueAtual}"
+						styleClass="alignEsquerdo" />
+				</p:column>
+
+				<p:column headerText="Valor de Compra" width="7%">
+					<h:outputText value="#{produto.valorCompraAtual}"
+						styleClass="alignEsquerdo" />
+				</p:column>
+
+				<p:column headerText="Valor de Venda" style="width:7%;">
+					<h:outputText value="#{produto.valorVenda}"
+						styleClass="alignEsquerdo" />
+				</p:column>
+
+				<p:column headerText="Lucro em R$" style="width:7%;">
+					<h:outputText value="#{produto.lucroEmReais}"
+						styleClass="alignEsquerdo" />
+				</p:column>
+
+				<p:column headerText="Lucro em %" style="width:7%;">
+					<h:outputText value="#{produto.porcVenda} "
+						styleClass="alignEsquerdo" />
+				</p:column>
+
+				<p:column headerText="Ação" style="width:7%;">
+
+					<p:commandButton id="btn-edits" icon="fa fa-edit"
+						style="background: #ffa500 !important; color: #FFFFFF;	font-size: 12px;"
+						update=":formNovoProduto" oncomplete="PF('dlgProduto').show();">
+						<f:setPropertyActionListener value="#{produto}"
+							target="#{produtoController.produto}" />
+					</p:commandButton>
+				</p:column>
+
+			</p:dataTable>
+
+		</div>
+		<br />
+		<br />
+		<br />
+		<!-- Dialog - Cadastrar novo Produto -->
+		<p:dialog id="dlgNovoProduto" header="Novo Produto"
+			widgetVar="dlgProduto" modal="false" width="100%" height="600"
+			resizable="false">
+			<br />
+			<h:form id="formNovoProduto">
+
+				<p:messages autoUpdate="true" closable="true" />
+				<p:growl id="message" autoUpdate="true" />
+
+				<h:outputLabel class="fa fa-list-alt" />
+				<h:outputLabel value=" Dados Gerais"
+					style="font-family: sans-serif;" />
+				<h:outputLabel
+					value=" Os campos marcados com * são de preenchimento Obrigatorio!"
+					styleClass="alignDireito" />
+				<h:panelGrid style="background-color:#F5F5F5" width="100%">
+					<p:panelGrid columns="3"
+						style="background-color:#F5F5F5; width:100%; "
+						styleClass="ui-noborder">
+
+						<p:panelGrid columns="3" style="width:100%; ">
+
+							<p:outputLabel for="codigoInterno" value="Código Interno(SKU)"
+								styleClass="alignEsquerdo" />
+
+							<p:outputLabel for="nomeProduto" value="Nome do Produto"
+								styleClass="alignEsquerdo" />
+
+							<p:outputLabel for="grupoProduto" value="Grupo do Produto:"
+								styleClass="alignEsquerdo" />
+
+							<p:inputText id="codigoInterno" styleClass="input100"
+								required="true"
+								value="#{produtoController.produto.codigoInterno}" />
+
+							<p:inputText id="nomeProduto" styleClass="input100"
+								required="true" value="#{produtoController.produto.nomeProduto}" />
+							<h:panelGroup>
+								<h:column>
+									<p:selectOneMenu id="grupoProduto"
+										style="width:70%; border-color: #cccccc !important; font-size:14px "
+										editable="true">
+										<f:selectItem itemLabel="selecione"></f:selectItem>
+										<f:selectItem itemLabel="Pessoa Fisica" itemValue="" />
+										<f:selectItem itemLabel="Pessoa Juridica" itemValue="Xbox One" />
+									</p:selectOneMenu>
+
+								</h:column>
+								<p:spacer />
+								<h:column>
+									<p:commandButton value="grupo" icon="fa fa-fw fa-plus-circle"
+										style="background: #008040 !important; color: #FFFFFF;	font-size: 14px;" />
+								</h:column>
+							</h:panelGroup>
+						</p:panelGrid>
+
+					</p:panelGrid>
+
+				</h:panelGrid>
+
+				<h:outputLabel class="fa fa-tasks" />
+				<h:outputLabel value=" Detalhes" style="font-family: sans-serif;" />
+
+				<h:panelGrid style="background-color:#F5F5F5" width="100%">
+					<p:panelGrid columns="4"
+						style="background-color:#F5F5F5; width:100%; "
+						styleClass="ui-noborder">
+						<p:panelGrid columns="4" style="width:100%; ">
+
+							<p:outputLabel for="peso" value="Peso (Kg)"
+								styleClass="alignEsquerdo" />
+
+							<p:outputLabel for="largura" value="Largura (cm)"
+								styleClass="alignEsquerdo" />
+
+							<p:outputLabel for="altura" value="Altura (cm)"
+								styleClass="alignEsquerdo" />
+
+							<p:outputLabel for="medida" value="Medida (cm)"
+								styleClass="alignEsquerdo" />
+
+							<p:inputText id="peso" styleClass="input100"
+								value="#{produtoController.produto.peso}" />
+							<p:inputText id="largura" styleClass="input100"
+								value="#{produtoController.produto.largura}" />
+							<p:inputText id="altura" styleClass="input100"
+								value="#{produtoController.produto.altura}" />
+							<p:inputText id="medida" styleClass="input100"
+								value="#{produtoController.produto.comprimento}" />
+						</p:panelGrid>
+					</p:panelGrid>
+				</h:panelGrid>
+
+				<h:outputLabel class="fa fa-money" />
+				<h:outputLabel value=" Valores" style="font-family: sans-serif;" />
+
+				<h:panelGrid style="background-color:#F5F5F5" width="100%">
+					<p:panelGrid columns="4"
+						style="background-color:#F5F5F5; width:100%; "
+						styleClass="ui-noborder">
+
+						<p:panelGrid columns="5" style="width:100%; ">
+
+							<p:outputLabel for="vCompraIni" value="Valor de Compra Inical"
+								styleClass="alignEsquerdo" />
+
+							<p:outputLabel for="vCompraAtual" value="Valor de Compra Atual"
+								styleClass="alignEsquerdo" />
+
+
+							<p:outputLabel for="pVenda" value="% de Venda"
+								styleClass="alignEsquerdo" />
+
+							<p:outputLabel for="vVenda" value="Valor de Venda"
+								styleClass="alignEsquerdo" />
+
+							<p:outputLabel for="lReais" value="Lucro em Reais (R$)"
+								styleClass="alignEsquerdo" />
+
+							<p:inputNumber id="vCompraIni" styleClass="input100"
+								style="width:100%" decimalSeparator="," thousandSeparator="."
+								symbol="R$ " disabled="true"
+								value="#{produtoController.produto.valorCompraInicial}" />
+
+							<p:inputNumber id="vCompraAtual" styleClass="input100"
+								style="width:100%" decimalSeparator="," thousandSeparator="."
+								symbol="R$ "
+								value="#{produtoController.produto.valorCompraAtual}">
+								<p:ajax event="keyup"
+									listener="#{produtoController.alteraValorCompaInicial()}"
+									update="vCompraIni" process="vCompraAtual, vCompraIni"
+									delay="500" />
+							</p:inputNumber>
+
+
+							<p:inputNumber id="pVenda" styleClass="input100" symbol="%"
+								symbolPosition="s"
+								value="#{produtoController.produto.porcVenda}">
+								<p:ajax event="keyup"
+									listener="#{produtoController.calculaPreco()}"
+									process="vCompraIni,pVenda" update="vVenda, lReais"
+									delay="1000" />
+							</p:inputNumber>
+
+							<p:inputNumber id="vVenda" styleClass="input100 inputDis"
+								decimalSeparator="," thousandSeparator="." symbol="R$ "
+								disabled="true" value="#{produtoController.produto.valorVenda}" />
+
+							<p:inputNumber id="lReais" styleClass="input100 inputDis"
+								decimalSeparator="," thousandSeparator="." symbol="R$ "
+								disabled="true"
+								value="#{produtoController.produto.lucroEmReais}" />
+
+						</p:panelGrid>
+
+					</p:panelGrid>
+
+				</h:panelGrid>
+
+				<h:outputLabel class="fa fa-cube" />
+				<h:outputLabel value=" Estoque" style="font-family: sans-serif;" />
+
+				<h:panelGrid style="background-color:#F5F5F5" width="100%">
+					<p:panelGrid columns="3"
+						style="background-color:#F5F5F5; width:100%; "
+						styleClass="ui-noborder">
+
+						<p:panelGrid columns="4" style="width:100%; ">
+
+							<p:outputLabel for="estoqueIni" value="Estoque Inicial"
+								styleClass="alignEsquerdo" />
+
+							<p:outputLabel for="estoqueAtu" value="Estoque Atual"
+								styleClass="alignEsquerdo" />
+
+							<p:outputLabel for="estoqueMin" value="Estoque Minimo"
+								styleClass="alignEsquerdo" />
+
+							<p:outputLabel for="estoqueMax" value="Estoque Maximo"
+								styleClass="alignEsquerdo" />
+
+							<p:inputNumber id="estoqueIni" styleClass="input100"
+								value="#{produtoController.produto.estoqueInicial}"
+								disabled="true" />
+							<p:inputNumber id="estoqueAtu" styleClass="input100"
+								value="#{produtoController.produto.estoqueAtual}">
+								<p:ajax event="keyup"
+									listener="#{produtoController.alteraEstoqueInicial()}"
+									update="estoqueAtu" process="estoqueIni, estoqueAtu"
+									delay="500" />
+							</p:inputNumber>
+
+							<p:inputNumber id="estoqueMin" styleClass="input100"
+								value="#{produtoController.produto.estoqueMaximo}" />
+							<p:inputNumber id="estoqueMax" styleClass="input100"
+								value="#{produtoController.produto.estoqueMaximo}" />
+
+						</p:panelGrid>
+
+					</p:panelGrid>
+				</h:panelGrid>
+
+				<h:outputLabel class="fa fa-industry" />
+				<h:outputLabel value=" Fornecedor" style="font-family: sans-serif;" />
+
+				<h:panelGrid style="background-color:#F5F5F5" width="100%">
+					<p:panelGrid columns="1"
+						style="background-color:#F5F5F5; width:100%; "
+						styleClass="ui-noborder">
+
+						<p:panelGrid columns="1" style="width:100%; ">
+
+							<p:outputLabel for="fornecedor" value="Fornecedor"
+								styleClass="alignEsquerdo" />
+							<h:panelGroup>
+								<p:selectOneMenu id="fornecedor"
+									style="width:85%; border-color: #cccccc !important; font-size:14px "
+									editable="true">
+									<f:selectItem itemLabel="selecione"></f:selectItem>
+									<f:selectItem itemLabel="Pessoa Fisica" itemValue="" />
+									<f:selectItem itemLabel="Pessoa Juridica" itemValue="Xbox One" />
+								</p:selectOneMenu>
+								<p:commandButton value="fornecedor"
+									icon="fa fa-fw fa-plus-circle"
+									style="background: #008040 !important; color: #FFFFFF;	font-size: 14px;" />
+							</h:panelGroup>
+						</p:panelGrid>
+
+					</p:panelGrid>
+				</h:panelGrid>
+
+				<h:outputLabel class="fa fa-pencil-square-o" />
+				<h:outputLabel value=" Observações:"
+					style="font-family: sans-serif;" />
+
+				<h:panelGrid style="background-color:#F5F5F5" width="100%">
+					<p:panelGrid style="background-color:#F5F5F5; width:100%; "
+						styleClass="ui-noborder">
+						<p:inputTextarea id="obs" style="width:99%" />
+					</p:panelGrid>
+				</h:panelGrid>
+
+				<p:commandButton value="Cadastrar" icon="fa fa-fw fa-check-circle-o"
+					style="background: #008040 !important; color: #FFFFFF;	font-size: 14px;"
+					action="#{produtoController.salvar()}" update="formNovoProduto" />
+
+				<p:commandButton value="Cancelar" icon="fa fa-fw fa-remove"
+					process="@this" immediate="true"
+					action="#{produtoController.limpaForm()}"
+					style="background: #cc3700 !important; color: #FFFFFF;	font-size: 14px;"
+					onclick="PF('dlg2').hide();" />
+
+			</h:form>
+		</p:dialog>
+		<!-- Fim - Cadastrar novo Produto -->
+
+		<!-- Dialog - Cadastrar GRUPO PRODUTO -->
+		<p:dialog header="Novo Produto" widgetVar="dlgGrupoProduto"
+			modal="false" width="80%" height="650" resizable="false">
+			<br />
+			<h:form>
+				<h:outputLabel class="fa fa-list-alt" />
+				<h:outputLabel value=" Dados Gerais"
+					style="font-family: sans-serif;" />
+				<h:outputLabel
+					value=" Os campos marcados com * são de preenchimento Obrigatorio!"
+					styleClass="alignDireito" />
+				<h:panelGrid style="background-color:#F5F5F5" width="100%">
+					<p:panelGrid columns="3"
+						style="background-color:#F5F5F5; width:100%; "
+						styleClass="ui-noborder">
+
+						<p:panelGrid columns="3" style="width:100%; ">
+
+							<p:outputLabel for="codigoInterno" value="Código Interno(SKU)"
+								styleClass="alignEsquerdo" />
+
+							<p:outputLabel for="nomeProduto" value="Nome do Produto"
+								styleClass="alignEsquerdo" />
+
+							<p:outputLabel for="grupoProduto" value="Grupo do Produto:"
+								styleClass="alignEsquerdo" />
+
+							<p:inputText id="codigoInterno" styleClass="input100"
+								required="true"
+								value="#{produtoController.produto.codigoInterno}" />
+
+							<p:inputText id="nomeProduto" styleClass="input100"
+								required="true" value="#{produtoController.produto.nomeProduto}" />
+							<h:panelGroup>
+								<h:column>
+									<p:selectOneMenu id="grupoProduto"
+										style="width:70%; border-color: #cccccc !important; font-size:14px "
+										editable="true">
+										<f:selectItem itemLabel="selecione"></f:selectItem>
+										<f:selectItem itemLabel="Pessoa Fisica" itemValue="" />
+										<f:selectItem itemLabel="Pessoa Juridica" itemValue="Xbox One" />
+									</p:selectOneMenu>
+
+								</h:column>
+								<p:spacer />
+								<h:column>
+									<p:commandButton value="grupo" icon="fa fa-fw fa-plus-circle"
+										style="background: #008040 !important; color: #FFFFFF;	font-size: 14px;" />
+								</h:column>
+							</h:panelGroup>
+						</p:panelGrid>
+
+					</p:panelGrid>
+
+				</h:panelGrid>
+
+				<h:outputLabel class="fa fa-tasks" />
+				<h:outputLabel value=" Detalhes" style="font-family: sans-serif;" />
+
+				<h:panelGrid style="background-color:#F5F5F5" width="100%">
+					<p:panelGrid columns="4"
+						style="background-color:#F5F5F5; width:100%; "
+						styleClass="ui-noborder">
+						<p:panelGrid columns="4" style="width:100%; ">
+
+							<p:outputLabel for="peso" value="Peso (Kg)"
+								styleClass="alignEsquerdo" />
+
+							<p:outputLabel for="largura" value="Largura (cm)"
+								styleClass="alignEsquerdo" />
+
+							<p:outputLabel for="altura" value="Altura (cm)"
+								styleClass="alignEsquerdo" />
+
+							<p:outputLabel for="medida" value="Medida (cm)"
+								styleClass="alignEsquerdo" />
+
+							<p:inputText id="peso" styleClass="input100"
+								value="#{produtoController.produto.peso}" />
+							<p:inputText id="largura" styleClass="input100"
+								value="#{produtoController.produto.largura}" />
+							<p:inputText id="altura" styleClass="input100"
+								value="#{produtoController.produto.altura}" />
+							<p:inputText id="medida" styleClass="input100"
+								value="#{produtoController.produto.comprimento}" />
+						</p:panelGrid>
+					</p:panelGrid>
+				</h:panelGrid>
+
+				<h:outputLabel class="fa fa-money" />
+				<h:outputLabel value=" Valores" style="font-family: sans-serif;" />
+
+				<h:panelGrid style="background-color:#F5F5F5" width="100%">
+					<p:panelGrid columns="4"
+						style="background-color:#F5F5F5; width:100%; "
+						styleClass="ui-noborder">
+
+						<p:panelGrid columns="4" style="width:100%; ">
+
+							<p:outputLabel for="vCompraIni" value="Valor de Compra Inical"
+								styleClass="alignEsquerdo" />
+
+							<p:outputLabel for="vCompraAtual" value="Valor de Compra Atual"
+								styleClass="alignEsquerdo" />
+
+
+							<p:outputLabel for="pVenda" value="% de Venda"
+								styleClass="alignEsquerdo" />
+
+							<p:outputLabel for="vVenda" value="Valor de Venda"
+								styleClass="alignEsquerdo" />
+
+							<p:outputLabel for="lReais" value="Lucro em Reais (R$)"
+								styleClass="alignEsquerdo" />
+
+							<p:inputNumber id="vCompraIni" styleClass="input100"
+								style="width:100%" decimalSeparator="," thousandSeparator="."
+								symbol="R$ " disabled="true"
+								value="#{produtoController.produto.valorCompraInicial}" />
+
+							<p:inputNumber id="vCompraAtual" styleClass="input100"
+								style="width:100%" decimalSeparator="," thousandSeparator="."
+								symbol="R$ "
+								value="#{produtoController.produto.valorCompraAtual}" />
+
+
+							<p:inputNumber id="pVenda" styleClass="input100" symbol="%"
+								symbolPosition="s"
+								value="#{produtoController.produto.porcVenda}">
+								<p:ajax event="keyup"
+									listener="#{produtoController.calculaPreco()}"
+									process="vCompraIni,pVenda" update="vVenda, lReais"
+									delay="1000" />
+							</p:inputNumber>
+
+							<p:inputNumber id="vVenda" styleClass="input100 inputDis"
+								decimalSeparator="," thousandSeparator="." symbol="R$ "
+								disabled="true" value="#{produtoController.produto.valorVenda}" />
+
+							<p:inputNumber id="lReais" styleClass="input100 inputDis"
+								decimalSeparator="," thousandSeparator="." symbol="R$ "
+								disabled="true"
+								value="#{produtoController.produto.lucroEmReais}" />
+						</p:panelGrid>
+
+					</p:panelGrid>
+
+				</h:panelGrid>
+
+				<h:outputLabel class="fa fa-cube" />
+				<h:outputLabel value=" Estoque" style="font-family: sans-serif;" />
+
+				<h:panelGrid style="background-color:#F5F5F5" width="100%">
+					<p:panelGrid columns="3"
+						style="background-color:#F5F5F5; width:100%; "
+						styleClass="ui-noborder">
+
+						<p:panelGrid columns="4" style="width:100%; ">
+
+							<p:outputLabel for="estoqueIni" value="Estoque Inicial"
+								styleClass="alignEsquerdo" />
+
+							<p:outputLabel for="estoqueMin" value="Estoque Minimo"
+								styleClass="alignEsquerdo" />
+
+							<p:outputLabel for="estoqueMax" value="Estoque Maximo"
+								styleClass="alignEsquerdo" />
+
+							<p:outputLabel for="estoqueAtu" value="Estoque Atual"
+								styleClass="alignEsquerdo" />
+
+							<p:inputNumber id="estoqueIni" styleClass="input100" />
+							<p:inputNumber id="estoqueMin" styleClass="input100" />
+							<p:inputNumber id="estoqueMax" styleClass="input100" />
+							<p:inputNumber id="estoqueAtu" styleClass="input100" />
+
+						</p:panelGrid>
+
+					</p:panelGrid>
+				</h:panelGrid>
+
+				<h:outputLabel class="fa fa-industry" />
+				<h:outputLabel value=" Fornecedor" style="font-family: sans-serif;" />
+
+				<h:panelGrid style="background-color:#F5F5F5" width="100%">
+					<p:panelGrid columns="1"
+						style="background-color:#F5F5F5; width:100%; "
+						styleClass="ui-noborder">
+
+						<p:panelGrid columns="1" style="width:100%; ">
+
+							<p:outputLabel for="fornecedor" value="Fornecedor"
+								styleClass="alignEsquerdo" />
+							<h:panelGroup>
+								<p:selectOneMenu id="fornecedor" required="true"
+									style="width:85%; border-color: #cccccc !important; font-size:14px "
+									editable="true">
+									<f:selectItem itemLabel="selecione"></f:selectItem>
+									<f:selectItem itemLabel="Pessoa Fisica" itemValue="" />
+									<f:selectItem itemLabel="Pessoa Juridica" itemValue="Xbox One" />
+								</p:selectOneMenu>
+								<p:commandButton value="fornecedor"
+									icon="fa fa-fw fa-plus-circle"
+									style="background: #008040 !important; color: #FFFFFF;	font-size: 14px;" />
+							</h:panelGroup>
+						</p:panelGrid>
+
+					</p:panelGrid>
+				</h:panelGrid>
+
+				<h:outputLabel class="fa fa-pencil-square-o" />
+				<h:outputLabel value=" Observações:"
+					style="font-family: sans-serif;" />
+
+				<h:panelGrid style="background-color:#F5F5F5" width="100%">
+					<p:panelGrid style="background-color:#F5F5F5; width:100%; "
+						styleClass="ui-noborder">
+						<p:inputTextarea id="obs" style="width:99%" />
+					</p:panelGrid>
+				</h:panelGrid>
+
+				<p:commandButton value="Cadastrar" icon="fa fa-fw fa-check-circle-o"
+					style="background: #008040 !important; color: #FFFFFF;	font-size: 14px;"
+					action="#{produtoController.salvar()}" process="@form"
+					update="@form" />
+
+				<p:commandButton value="Cancelar" icon="fa fa-fw fa-remove"
+					process="@this" immediate="true"
+					style="background: #cc3700 !important; color: #FFFFFF;	font-size: 14px;"
+					onclick="PF('dlg2').hide();" />
+			</h:form>
+		</p:dialog>
+		<!-- Fim - Cadastrar GRUPO PRODUTO -->
+
+
+
+	</ui:define>
+
+</ui:composition>
+
+</html>

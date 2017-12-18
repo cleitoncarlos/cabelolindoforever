@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="_template.xhtml">
+	<ui:define name="conteudo">
+
+		<p:spacer height="" />
+		<p:panel style="background-color:#FFFFFF; border:none" width="100%;">
+			<h:outputLabel class="fa fa-fw fa-line-chart" />
+			<h:outputLabel value=" Curva ABC (mensal)"
+				style="font-family: sans-serif;" />
+				<br/>	
+		<p:commandButton id="btn-add-cliente" value="carregar dados"
+			action="#{vendaController.calculaCurvaABC()}" update="formTableABC"
+			icon="fa fa-fw fa-bar-chart" />
+		</p:panel>
+
+
+		<h:form id="formTableABC">
+			<p:dataTable var="item" value="#{vendaController.listaCurvaABC}" rendered="#{vendaController.ativa==true}"
+				styleClass="ui-noborder table" style="text-align: center;">
+
+				<p:columnGroup type="header">
+					
+					<p:row>
+						<p:column width="10%" headerText="Codigo" />
+						<p:column headerText="Nome do Produto" width="25%" />
+						<p:column headerText="Quantidade Vendida" width="7%" />
+						<p:column headerText="Valor Unitário"  />
+						<p:column headerText="Valor Total por produto" />
+						<p:column headerText="Porcentagem" />
+						<p:column headerText="Porcentagem acumulada" />
+						<p:column headerText="Classificação ABC" />
+					</p:row>
+				</p:columnGroup>
+
+				<p:column>
+					<h:outputText value="#{item.produto.codigoInterno}" />
+				</p:column>
+				<p:column style="text-align: left;">
+					<h:outputText value="#{item.produto.nomeProduto}" />
+				</p:column>
+				<p:column>
+					<h:outputText value="#{item.quantidadeVendida}" />
+				</p:column>
+				<p:column>
+					<h:outputText value="#{item.produto.valorVenda}" />
+				</p:column>
+				<p:column>
+					<h:outputText value="#{item.valorTotalPorProduto}">
+					</h:outputText>
+				</p:column>
+				<p:column>
+					<h:outputText value="#{item.porcentagem} %">
+					</h:outputText>
+				</p:column>
+				<p:column>
+					<h:outputText value="#{item.porcAcumulada} %">
+						<f:convertNumber type="currency" currencySymbol="" />
+					</h:outputText>
+				</p:column>
+				<p:column>
+					<h:outputText value="#{item.classificacao.descricao}">
+					</h:outputText>
+				</p:column>
+
+				<p:columnGroup type="footer">
+					<p:row>
+						<p:column colspan="4" style="text-align:right"
+							footerText="Total de Vendas:" />
+						<p:column footerText="R$ #{vendaController.totalVendas}" />
+
+						<p:column footerText="#{vendaController.porcTotal} %" />
+					</p:row>
+				</p:columnGroup>
+
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+
+</ui:composition>
+
+</html>
