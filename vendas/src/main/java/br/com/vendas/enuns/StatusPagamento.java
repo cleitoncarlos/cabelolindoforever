@@ -2,10 +2,10 @@ package br.com.vendas.enuns;
 
 public enum StatusPagamento {
 	
-	PAGO(1, "OK"),
-	PENDENTE(2,"Pendente"),
-	EM_ATRAZO(3,"Atrasado"),
-	CANCELADO(3,"Cancelado");
+	PAGO(0, "efetivado"),
+	PENDENTE(1,"pendente"),
+	EM_ATRAZO(2,"atrasado"),
+	CANCELADO(3,"cancelado");
 
 	private int codigo;
 	private String descricao;

@@ -63,6 +63,7 @@
 
 						<p:commandButton value="#{venda.situacaoVenda.descricao}"
 							rendered="#{venda.situacaoVenda.descricao == 'concretizada'}"
+							disabled="#{venda.situacaoVenda.descricao == 'concretizada'}"
 							style="background: #008040 !important; color: #FFFFFF; font-size: 14px;width:100%"
 							onclick="PF('dlgAltSitVenda').show();" process="@this"
 							update="formAltSitVenda">
@@ -87,7 +88,7 @@
 
 						<p:commandButton value="#{venda.situacaoVenda.descricao}"
 							rendered="#{venda.situacaoVenda.descricao == 'encomenda'}"
-							style="background: #9a9a9a !important; color: #FFFFFF;	font-size: 13px; width:100%"
+							style="background: #5a5a5a !important; color: #FFFFFF;	font-size: 14px; width:100%"
 							onclick="PF('dlgAltSitVenda').show();" process="@this"
 							update="formAltSitVenda">
 							<p:confirm header="Confirmação"
@@ -100,7 +101,8 @@
 						<p:commandButton value="#{venda.situacaoVenda.descricao}"
 							width="30"
 							rendered="#{venda.situacaoVenda.descricao == 'cancelada'}"
-							style="background: #cc0000 !important; color: #FFFFFF;	font-size: 13px; width:100%"
+							disabled="#{venda.situacaoVenda.descricao == 'cancelada'}"
+							style="background: #cc0000 !important; color: #FFFFFF;	font-size: 14px; width:100%"
 							onclick="PF('dlgAltSitVenda').show();" process="@this"
 							update="formAltSitVenda">
 							<p:confirm header="Confirmação"
@@ -126,12 +128,45 @@
 						</h:outputText>
 					</p:column>
 
-					<p:column headerText="Status" style="width:5%;">
+					<p:column headerText="Status Pagamento"
+						style="width:7%; text-align:center">
 						<h:outputText value="#{venda.stausPagamento.descricao}"
-							styleClass="alignEsquerdo" />
+							rendered="#{venda.stausPagamento.descricao == 'efetivado'}"
+							style="
+							background: #ffffff!important;
+							font-size: 18px !important;
+							font-family: sans-serif;
+							color: #00bfff !important;
+							font-weight: 700" />
+						<h:outputText value="#{venda.stausPagamento.descricao}"
+							rendered="#{venda.stausPagamento.descricao == 'pendente'}"
+							style="
+							background: #ffffff	!important;
+							font-size: 18px !important;
+							font-family: sans-serif;
+							color: #ff8000 !important;
+							font-weight: 700" />
+						<h:outputText value="#{venda.stausPagamento.descricao}"
+							rendered="#{venda.stausPagamento.descricao == 'atrasado'}"
+							style="
+							background: #ffffff !important;
+							font-size: 18px !important;
+							font-family: sans-serif;
+							color:  #000000 !important;
+							font-weight: 700" />
+						<h:outputText value="#{venda.stausPagamento.descricao}"
+							rendered="#{venda.stausPagamento.descricao == 'cancelado'}"
+							style="
+							background: #ffffff!important;
+							font-size: 18px !important;
+							font-family: sans-serif;
+							color: #cc0000 !important;
+							font-weight: 700" />
+
+
 					</p:column>
 
-					<p:column headerText="Data Pagamento" style="width:10%;">
+					<p:column headerText="Data Pagamento" style="width:7%;">
 						<h:outputText value="#{venda.dataPagamento}"
 							styleClass="alignEsquerdo">
 							<f:convertDateTime dateStyle="long"
@@ -141,7 +176,13 @@
 
 					<p:column headerText="Valor" style="width:5%;">
 						<h:outputText value="#{venda.valorTotal}"
-							styleClass="alignEsquerdo" />
+							styleClass="alignEsquerdo"
+							style="
+							background: #ffffff!important;
+							font-size: 17px !important;
+							font-family: sans-serif;
+							color: #008000 !important;
+							font-weight: 700" />
 					</p:column>
 
 
@@ -690,6 +731,7 @@
 							</p:selectOneMenu>
 
 							<p:calendar id="dataPrevPagamento" styleClass="input100"
+								disabled="#{vendaController.venda.formaPagamento.descricao == 'À Vista'}"
 								required="true" timeZone="America/Campo_Grande" locale="pt_BR"
 								pattern="dd/MM/yyyy"
 								value="#{vendaController.venda.dataPrevisaoPagamento}">
@@ -697,7 +739,7 @@
 							</p:calendar>
 
 							<p:calendar id="dataPagamento" styleClass="input100"
-								disabled="#{vendaController.venda.formaPagamento.descricao == 'À Prazo'}"
+								disabled="#{vendaController.venda.formaPagamento.descricao == 'À Prazo' || vendaController.venda.formaPagamento.descricao == 'À Vista'}"
 								timeZone="America/Campo_Grande" locale="pt_BR"
 								pattern="dd/MM/yyyy"
 								value="#{vendaController.venda.dataPagamento}" />

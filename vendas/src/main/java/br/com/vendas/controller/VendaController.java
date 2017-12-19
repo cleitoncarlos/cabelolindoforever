@@ -96,6 +96,7 @@ public class VendaController implements Serializable {
 
 		vendas = new ArrayList<Venda>();
 		vendas = vendaService.listarVendas();
+		verificaStatusPagamento();
 
 		listaCurvaABC = new ArrayList<>();
 		// listaCurvaABC = abcService.listarCurvaABC();
@@ -251,7 +252,7 @@ public class VendaController implements Serializable {
 
 			} else if (venda.getSituacaoVenda().equals(SituacaoVenda.CANCELADA)) {
 				venda.setStausPagamento(StatusPagamento.CANCELADO);
-			}else
+			} else
 				venda.setStausPagamento(StatusPagamento.PAGO);
 
 			vendaService.salvar(venda);
@@ -264,9 +265,13 @@ public class VendaController implements Serializable {
 		}
 	}
 
-	public void verificStatusPagamento() {
+	public void verificaStatusPagamento() {
 		for (Venda venda : vendas) {
-
+			if (venda.getFormaPagamento().equals(FormaPagamento.A_PRAZO)
+					&& !venda.getSituacaoVenda().equals(SituacaoVenda.CANCELADA)
+					&& venda.getDataPrevisaoPagamento().before(new Date())) {
+				venda.setStausPagamento(StatusPagamento.EM_ATRAZO);
+			}
 		}
 	}
 
@@ -389,13 +394,10 @@ public class VendaController implements Serializable {
 
 	public void verificaFormaPagamento() {
 
-		if (!venda.getFormaPagamento().getDescricao().equals("ï¿½ Prazo")) {
+		if (!venda.getFormaPagamento().getDescricao().equals("À Vista")) {
 
 			venda.setDataPrevisaoPagamento(venda.getDataVenda());
 			venda.setDataPagamento(venda.getDataVenda());
-
-			MenssagemUtil.mensagemInfo(
-					"Selecionado: " + venda.getFormaPagamento().getDescricao() + "Data Venda: " + venda.getDataVenda());
 		} else
 			return;
 
