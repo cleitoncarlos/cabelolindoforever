@@ -4,7 +4,8 @@ public enum StatusPagamento {
 	
 	PAGO(1, "OK"),
 	PENDENTE(2,"Pendente"),
-	EM_ATRAZO(3,"Atrasado");
+	EM_ATRAZO(3,"Atrasado"),
+	CANCELADO(3,"Cancelado");
 
 	private int codigo;
 	private String descricao;

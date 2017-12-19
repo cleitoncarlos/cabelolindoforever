@@ -23,6 +23,7 @@ import br.com.vendas.entity.Venda;
 import br.com.vendas.enuns.Classificacao;
 import br.com.vendas.enuns.FormaPagamento;
 import br.com.vendas.enuns.SituacaoVenda;
+import br.com.vendas.enuns.StatusPagamento;
 import br.com.vendas.service.CurvaABCService;
 import br.com.vendas.service.ProdutoService;
 import br.com.vendas.service.VendaService;
@@ -90,14 +91,14 @@ public class VendaController implements Serializable {
 
 		produtos = new ArrayList<Produto>();
 		produtos = produtoService.listarTudo();
-		
+
 		this.produtoEstoque = new ArrayList<Produto>();
 
 		vendas = new ArrayList<Venda>();
 		vendas = vendaService.listarVendas();
 
 		listaCurvaABC = new ArrayList<>();
-		//listaCurvaABC = abcService.listarCurvaABC();
+		// listaCurvaABC = abcService.listarCurvaABC();
 
 		clientes = new ArrayList<Cliente>();
 		clientes = vendaService.listarClientes();
@@ -144,19 +145,19 @@ public class VendaController implements Serializable {
 
 			for (ItensVenda item : listaItens) {
 
-				//busca = abcService.buscaDadosPorIdProduto(item.getProduto());
+				// busca = abcService.buscaDadosPorIdProduto(item.getProduto());
 
-				//if (busca == null) {
+				// if (busca == null) {
 
-					if (item.getProduto().getCodigo() == produto.getCodigo()) {
+				if (item.getProduto().getCodigo() == produto.getCodigo()) {
 
-						qtd = qtd + item.getQuantidade();
-					}
-				/*}*/ else if (busca != null && item.getProduto().getCodigo() == produto.getCodigo()) {
+					qtd = qtd + item.getQuantidade();
+				}
+				/* } */ else if (busca != null && item.getProduto().getCodigo() == produto.getCodigo()) {
 					qtd = busca.getQuantidadeVendida() + item.getQuantidade();
 				}
 			}
-			if (qtd != 0 /*&& busca == null*/) {
+			if (qtd != 0 /* && busca == null */) {
 
 				this.curvaABC.setQuantidadeVendida(qtd);
 				subtotal = produto.getValorVenda().multiply(BigDecimal.valueOf(qtd));
@@ -165,15 +166,15 @@ public class VendaController implements Serializable {
 				total = total.add(subtotal);
 
 				lisaABC.add(curvaABC);
-			} /*else if (qtd != 0 && busca != null) {
-
-				busca.setQuantidadeVendida(qtd);
-				subtotal = produto.getValorVenda().multiply(BigDecimal.valueOf(qtd));
-				busca.setValorTotalPorProduto(subtotal);
-				total = total.add(subtotal);
-
-				lisaABC.add(busca);
-			}*/
+			} /*
+				 * else if (qtd != 0 && busca != null) {
+				 * 
+				 * busca.setQuantidadeVendida(qtd); subtotal =
+				 * produto.getValorVenda().multiply(BigDecimal.valueOf(qtd));
+				 * busca.setValorTotalPorProduto(subtotal); total = total.add(subtotal);
+				 * 
+				 * lisaABC.add(busca); }
+				 */
 		}
 
 		/*
@@ -194,51 +195,64 @@ public class VendaController implements Serializable {
 				listaCurvaABC.add(c);
 			}
 
-			/*try {
-				System.out.println("Total Vendas 1: " + totalVendas);
-				abcService.salvar(listaCurvaABC);
-				init();
-				System.out.println("Total Vendas 2: " + totalVendas);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}*/
+			/*
+			 * try { System.out.println("Total Vendas 1: " + totalVendas);
+			 * abcService.salvar(listaCurvaABC); init();
+			 * System.out.println("Total Vendas 2: " + totalVendas); } catch (Exception e) {
+			 * e.printStackTrace(); }
+			 */
 		}
 
-		/*else {*/
-			for (CurvaABC c : listaCurvaABC) {
+		/* else { */
+		for (CurvaABC c : listaCurvaABC) {
 
-				porcent = porcent.add(c.getPorcentagem());
+			porcent = porcent.add(c.getPorcentagem());
+			porcentClass = porcentClass.add(c.getPorcentagem());
+
+			// this.totalVendas =
+			// totalVendas.add(c.getProduto().getValorVenda().multiply(BigDecimal.valueOf(c.getQuantidadeVendida())));
+
+			if (porcent.doubleValue() == 100) {
 				porcentClass = porcentClass.add(c.getPorcentagem());
-
-				//this.totalVendas = totalVendas.add(c.getProduto().getValorVenda().multiply(BigDecimal.valueOf(c.getQuantidadeVendida())));
-
-				if (porcent.doubleValue() == 100) {
-					porcentClass = porcentClass.add(c.getPorcentagem());
-					c.setClassificacao(Classificacao.A);
-				} else if (verifica == false && porcentClass.doubleValue() <= 80) {
-					porcentClass = porcentClass.add(c.getPorcentagem());
-					c.setClassificacao(Classificacao.A);
-				} else if (verifica == false && porcentClass.doubleValue() > 80) {
-					c.setClassificacao(Classificacao.B);
-					porcentClass = new BigDecimal(0);
-					verifica = true;
-				} else if (verifica && porcentClass.doubleValue() <= 15) {
-					porcentClass = porcentClass.add(c.getPorcentagem());
-					c.setClassificacao(Classificacao.B);
-				} else if (verifica && porcentClass.doubleValue() >= 15) {
-					c.setClassificacao(Classificacao.C);
-				}
-
-				c.setPorcAcumulada(porcent);
-				this.porcTotal = porcent;
+				c.setClassificacao(Classificacao.A);
+			} else if (verifica == false && porcentClass.doubleValue() <= 80) {
+				porcentClass = porcentClass.add(c.getPorcentagem());
+				c.setClassificacao(Classificacao.A);
+			} else if (verifica == false && porcentClass.doubleValue() > 80) {
+				c.setClassificacao(Classificacao.B);
+				porcentClass = new BigDecimal(0);
+				verifica = true;
+			} else if (verifica && porcentClass.doubleValue() <= 15) {
+				porcentClass = porcentClass.add(c.getPorcentagem());
+				c.setClassificacao(Classificacao.B);
+			} else if (verifica && porcentClass.doubleValue() >= 15) {
+				c.setClassificacao(Classificacao.C);
 			}
-		/*}*/
+
+			c.setPorcAcumulada(porcent);
+			this.porcTotal = porcent;
+		}
+		/* } */
 
 	}
 
 	public void salvar() {
 
 		try {
+
+			if (venda.getSituacaoVenda().equals(SituacaoVenda.EM_ANDAMENTO)
+					|| venda.getSituacaoVenda().equals(SituacaoVenda.EM_ABERTO)) {
+				venda.setStausPagamento(StatusPagamento.PENDENTE);
+
+			} else if (venda.getSituacaoVenda().equals(SituacaoVenda.CONCRETIZADA)
+					&& venda.getFormaPagamento().equals(FormaPagamento.A_PRAZO)) {
+
+				venda.setStausPagamento(StatusPagamento.PENDENTE);
+
+			} else if (venda.getSituacaoVenda().equals(SituacaoVenda.CANCELADA)) {
+				venda.setStausPagamento(StatusPagamento.CANCELADO);
+			}else
+				venda.setStausPagamento(StatusPagamento.PAGO);
 
 			vendaService.salvar(venda);
 			MenssagemUtil.mensagemInfo("Venda Cadastrado!!");
@@ -247,6 +261,12 @@ public class VendaController implements Serializable {
 		} catch (Exception e) {
 			MenssagemUtil.mensagemErro("Erro ao Salvar Produto!");
 			e.printStackTrace();
+		}
+	}
+
+	public void verificStatusPagamento() {
+		for (Venda venda : vendas) {
+
 		}
 	}
 
@@ -283,16 +303,16 @@ public class VendaController implements Serializable {
 
 		venda.setQuantidadeTotal((quantidade));
 		venda.setValorTotal(valor);
-		
+
 		for (Produto produto : produtos) {
-			if(produto.getCodigo()==itensVenda.getProduto().getCodigo()) {
+			if (produto.getCodigo() == itensVenda.getProduto().getCodigo()) {
 				int estoque = 0;
 				estoque = itensVenda.getQuantidade();
-				produto.setEstoqueAtual(produto.getEstoqueAtual()-estoque);
+				produto.setEstoqueAtual(produto.getEstoqueAtual() - estoque);
 				this.produtoEstoque.add(produto);
 			}
 		}
-		
+
 		itensVenda = new ItensVenda();
 		this.itensVenda.setDesconto(new BigDecimal(0));
 
@@ -314,9 +334,9 @@ public class VendaController implements Serializable {
 
 	public void selecionaItem() {
 		ItensVenda item = itensVenda;
-		System.out.println("Produto: " +itensVenda.getProduto().getNomeProduto());
+		System.out.println("Produto: " + itensVenda.getProduto().getNomeProduto());
 	}
-	
+
 	public void calculaValor() {
 
 		for (Produto produto : produtos) {
@@ -333,11 +353,11 @@ public class VendaController implements Serializable {
 									.subtract(itensVenda.getDesconto()));
 			}
 		}
-		//itensVenda = new ItensVenda();
+		// itensVenda = new ItensVenda();
 	}
 
 	public List<Produto> completeProduto(String query) {
-		//List<Produto> allProdutos = produtoService.listarTudo();
+		// List<Produto> allProdutos = produtoService.listarTudo();
 		List<Produto> filteredProdutos = new ArrayList<Produto>();
 
 		for (int i = 0; i < produtos.size(); i++) {
@@ -385,8 +405,9 @@ public class VendaController implements Serializable {
 
 		System.out.println("Produto-ValorCompra: " + produto);
 
-		produto.setValorVenda(((produto.getValorCompraAtual().multiply(produto.getPorcVenda()).divide(new BigDecimal(100)))
-				.add(produto.getValorCompraAtual())));
+		produto.setValorVenda(
+				((produto.getValorCompraAtual().multiply(produto.getPorcVenda()).divide(new BigDecimal(100)))
+						.add(produto.getValorCompraAtual())));
 
 		produto.setLucroEmReais(produto.getValorVenda().subtract(produto.getValorCompraAtual()));
 

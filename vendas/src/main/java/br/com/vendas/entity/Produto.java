@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -72,7 +71,6 @@ public class Produto implements Serializable{
 	@Temporal(TemporalType.TIMESTAMP)
 	private Calendar dataAlteraca;
 	
-	private StatusPagamento stausPagamento;
 	
 	public Integer getCodigo() {
 		return codigo;
@@ -364,15 +362,6 @@ public class Produto implements Serializable{
 	public void setValorCompraAtual(BigDecimal valorCompraAtual) {
 		this.valorCompraAtual = valorCompraAtual;
 	}
-	public StatusPagamento getStausPagamento() {
-		return stausPagamento;
-	}
-	public void setStausPagamento(StatusPagamento stausPagamento) {
-		this.stausPagamento = stausPagamento;
-	}
-	
-	
-	
 	
 /*	
 	@Id

@@ -22,6 +22,7 @@ import javax.persistence.TemporalType;
 
 import br.com.vendas.enuns.FormaPagamento;
 import br.com.vendas.enuns.SituacaoVenda;
+import br.com.vendas.enuns.StatusPagamento;
 import br.com.vendas.enuns.Vendedor;
 
 @Entity
@@ -73,6 +74,8 @@ public class Venda implements Serializable {
 
 	private int quandidadeParcela;
 
+	private StatusPagamento stausPagamento;
+	
 	private String observacao;
 
 	
@@ -87,8 +90,8 @@ public class Venda implements Serializable {
 				+ situacaoVenda + ", canalVenda=" + canalVenda + ", itens=" + itens + ", quantidadeTotal="
 				+ quantidadeTotal + ", descontoTotal=" + descontoTotal + ", valorTotal=" + valorTotal
 				+ ", formaPagamento=" + formaPagamento + ", dataPrevisaoPagamento=" + dataPrevisaoPagamento
-				+ ", dataPagamento=" + dataPagamento + ", quandidadeParcela=" + quandidadeParcela + ", observacao="
-				+ observacao + "]";
+				+ ", dataPagamento=" + dataPagamento + ", quandidadeParcela=" + quandidadeParcela + ", stausPagamento="
+				+ stausPagamento + ", observacao=" + observacao + "]";
 	}
 
 	@Override
@@ -110,6 +113,7 @@ public class Venda implements Serializable {
 		result = prime * result + quandidadeParcela;
 		result = prime * result + quantidadeTotal;
 		result = prime * result + ((situacaoVenda == null) ? 0 : situacaoVenda.hashCode());
+		result = prime * result + ((stausPagamento == null) ? 0 : stausPagamento.hashCode());
 		result = prime * result + ((valorTotal == null) ? 0 : valorTotal.hashCode());
 		result = prime * result + ((vendedor == null) ? 0 : vendedor.hashCode());
 		return result;
@@ -186,6 +190,8 @@ public class Venda implements Serializable {
 		if (quantidadeTotal != other.quantidadeTotal)
 			return false;
 		if (situacaoVenda != other.situacaoVenda)
+			return false;
+		if (stausPagamento != other.stausPagamento)
 			return false;
 		if (valorTotal == null) {
 			if (other.valorTotal != null)
@@ -335,6 +341,14 @@ public class Venda implements Serializable {
 
 	public void setDataCadastro(Date dataCadastro) {
 		this.dataCadastro = dataCadastro;
+	}
+
+	public StatusPagamento getStausPagamento() {
+		return stausPagamento;
+	}
+
+	public void setStausPagamento(StatusPagamento stausPagamento) {
+		this.stausPagamento = stausPagamento;
 	}
 
 }

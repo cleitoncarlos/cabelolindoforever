@@ -61,7 +61,7 @@
 					<p:column headerText="Situação" width="10%">
 
 
-						<p:commandButton value="#{venda.situacaoVenda.descricao}" 
+						<p:commandButton value="#{venda.situacaoVenda.descricao}"
 							rendered="#{venda.situacaoVenda.descricao == 'concretizada'}"
 							style="background: #008040 !important; color: #FFFFFF; font-size: 14px;width:100%"
 							onclick="PF('dlgAltSitVenda').show();" process="@this"
@@ -97,7 +97,8 @@
 								target="#{vendaController.venda}" />
 						</p:commandButton>
 
-						<p:commandButton value="#{venda.situacaoVenda.descricao}" width="30"
+						<p:commandButton value="#{venda.situacaoVenda.descricao}"
+							width="30"
 							rendered="#{venda.situacaoVenda.descricao == 'cancelada'}"
 							style="background: #cc0000 !important; color: #FFFFFF;	font-size: 13px; width:100%"
 							onclick="PF('dlgAltSitVenda').show();" process="@this"
@@ -124,9 +125,9 @@
 								timeZone="America/Campo_Grande" pattern="dd/MM/yyyy" />
 						</h:outputText>
 					</p:column>
-					
+
 					<p:column headerText="Status" style="width:5%;">
-						<h:outputText value=""
+						<h:outputText value="#{venda.stausPagamento.descricao}"
 							styleClass="alignEsquerdo" />
 					</p:column>
 
