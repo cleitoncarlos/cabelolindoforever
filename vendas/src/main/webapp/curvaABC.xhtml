@@ -14,24 +14,25 @@
 			<h:outputLabel class="fa fa-fw fa-line-chart" />
 			<h:outputLabel value=" Curva ABC (mensal)"
 				style="font-family: sans-serif;" />
-				<br/>	
-		<p:commandButton id="btn-add-cliente" value="carregar dados"
-			action="#{vendaController.calculaCurvaABC()}" update="formTableABC"
-			icon="fa fa-fw fa-bar-chart" />
+			<br />
+			<p:commandButton id="btn-add-cliente" value="carregar dados"
+				action="#{vendaController.calculaCurvaABC()}" update="formTableABC"
+				icon="fa fa-fw fa-bar-chart" />
 		</p:panel>
 
 
 		<h:form id="formTableABC">
-			<p:dataTable var="item" value="#{vendaController.listaCurvaABC}" rendered="#{vendaController.ativa==true}"
+			<p:dataTable var="item" value="#{vendaController.listaCurvaABC}"
+				rendered="#{vendaController.ativa==true}"
 				styleClass="ui-noborder table" style="text-align: center;">
 
 				<p:columnGroup type="header">
-					
+
 					<p:row>
 						<p:column width="10%" headerText="Codigo" />
 						<p:column headerText="Nome do Produto" width="25%" />
 						<p:column headerText="Quantidade Vendida" width="7%" />
-						<p:column headerText="Valor Unitário"  />
+						<p:column headerText="Valor Unitário" />
 						<p:column headerText="Valor Total por produto" />
 						<p:column headerText="Porcentagem" />
 						<p:column headerText="Porcentagem acumulada" />
@@ -80,6 +81,11 @@
 				</p:columnGroup>
 
 			</p:dataTable>
+			<div align="right">
+				<strong style="color: green;">Produtos A: Responsáveis por 80% das vendas</strong><br /> 
+				<strong style="color: blue;">Produtos B: Responsáveis por 15% das vendas</strong><br /> 
+				<strong style="color: red;">Produtos C: Responsáveis por  05% das vendas</strong>
+			</div>
 		</h:form>
 	</ui:define>
 

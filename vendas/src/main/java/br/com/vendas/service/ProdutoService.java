@@ -19,6 +19,14 @@ public class ProdutoService {
 		em.merge(produto);
 	}
 
+	public void alterarEstoque(List<Produto> produtos) {
+
+		for (Produto produto : produtos) {
+			em.merge(produto);
+		}
+
+	}
+
 	@SuppressWarnings("unchecked")
 	public List<Produto> listarTudo() {
 		try {

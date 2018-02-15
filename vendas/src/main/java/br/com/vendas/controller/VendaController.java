@@ -133,6 +133,7 @@ public class VendaController implements Serializable {
 		BigDecimal porcent = new BigDecimal(0);
 		BigDecimal porcentClass = new BigDecimal(0);
 		boolean verifica = false;
+		int cont = 0;
 		List<CurvaABC> listaABCaux = new ArrayList<CurvaABC>();
 
 		ItensVenda itemaux = new ItensVenda();
@@ -213,7 +214,7 @@ public class VendaController implements Serializable {
 			// this.totalVendas =
 			// totalVendas.add(c.getProduto().getValorVenda().multiply(BigDecimal.valueOf(c.getQuantidadeVendida())));
 
-			if (porcent.doubleValue() == 100) {
+			if (porcent.doubleValue() == 100 && cont == 0) {
 				porcentClass = porcentClass.add(c.getPorcentagem());
 				c.setClassificacao(Classificacao.A);
 			} else if (verifica == false && porcentClass.doubleValue() <= 80) {
@@ -232,6 +233,7 @@ public class VendaController implements Serializable {
 
 			c.setPorcAcumulada(porcent);
 			this.porcTotal = porcent;
+			cont++;
 		}
 		/* } */
 
@@ -252,10 +254,24 @@ public class VendaController implements Serializable {
 
 			} else if (venda.getSituacaoVenda().equals(SituacaoVenda.CANCELADA)) {
 				venda.setStausPagamento(StatusPagamento.CANCELADO);
+
+				for (Produto produto : produtos) {
+
+					for (ItensVenda item : venda.getItens()) {
+
+						if (produto.getCodigo() == item.getProduto().getCodigo()) {
+							int estoque = 0;
+							estoque = item.getQuantidade();
+							produto.setEstoqueAtual(produto.getEstoqueAtual() + estoque);
+						}
+					}
+				}
+
 			} else
 				venda.setStausPagamento(StatusPagamento.PAGO);
 
 			vendaService.salvar(venda);
+			produtoService.alterarEstoque(produtos);
 			MenssagemUtil.mensagemInfo("Venda Cadastrado!!");
 			init();
 

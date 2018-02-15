@@ -57,12 +57,19 @@ public class ProdutoController implements Serializable {
 		}
 	}
 
+	public void alterarEstoque(List<Produto> produtos) {
+
+		produtoService.alterarEstoque(produtos);
+
+	}
+
 	public void calculaPreco() {
 
 		System.out.println("Produto-ValorCompra: " + produto);
 
-		produto.setValorVenda(((produto.getValorCompraAtual().multiply(produto.getPorcVenda()).divide(new BigDecimal(100)))
-				.add(produto.getValorCompraAtual())));
+		produto.setValorVenda(
+				((produto.getValorCompraAtual().multiply(produto.getPorcVenda()).divide(new BigDecimal(100)))
+						.add(produto.getValorCompraAtual())));
 
 		produto.setLucroEmReais(produto.getValorVenda().subtract(produto.getValorCompraAtual()));
 
@@ -74,11 +81,12 @@ public class ProdutoController implements Serializable {
 	public void limpaForm() {
 		this.produto = new Produto();
 	}
-	
+
 	public void alteraEstoqueInicial() {
 		System.out.println("Produto: " + produto.getEstoqueInicial());
 		this.produto.setEstoqueInicial(produto.getEstoqueAtual());
 	}
+
 	public void alteraValorCompaInicial() {
 		System.out.println("Produto: " + produto.getEstoqueInicial());
 		this.produto.setValorCompraInicial(produto.getValorCompraAtual());
