@@ -410,10 +410,12 @@ public class VendaController implements Serializable {
 
 	public void verificaFormaPagamento() {
 
-		if (!venda.getFormaPagamento().getDescricao().equals("À Vista")) {
+		if (venda.getFormaPagamento().getDescricao().equals("À Vista")) {
 
 			venda.setDataPrevisaoPagamento(venda.getDataVenda());
 			venda.setDataPagamento(venda.getDataVenda());
+		} else if (venda.getFormaPagamento().getDescricao().equals("À Prazo")) {
+			return;
 		} else
 			return;
 

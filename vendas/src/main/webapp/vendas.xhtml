@@ -17,9 +17,21 @@
 
 		</p:panel>
 
-		<p:commandButton id="btn-add-cliente" value="Vender"
-			action="#{vendaController.limpaForm()}" update="formNovaVenda"
-			icon="fa fa-fw fa-plus-circle" oncomplete="PF('dlgVenda').show();" />
+
+
+
+		<div class="ui-g">
+			<div class="ui-g-12 ui-md-6 ui-lg-8">
+				<p:commandButton id="btn-add-cliente" value="Vender"
+					action="#{vendaController.limpaForm()}" update="formNovaVenda"
+					icon="fa fa-fw fa-plus-circle" oncomplete="PF('dlgVenda').show();" />
+			</div>
+			<div class="ui-g-12 ui-lg-4" align="right">
+				<STRONG>Total Vendas:</STRONG> 1800,00
+				<br/>
+				<STRONG>Total Vendas Canceladas:</STRONG> 1200,00
+			</div>
+		</div>
 
 		<div>
 			<h:form id="formTableVendas">
@@ -205,6 +217,7 @@
 						</p:commandButton>
 
 						<p:commandButton id="btn-remove" icon="fa fa-fw fa-remove"
+							disabled="#{venda.situacaoVenda.descricao == 'cancelada'}"
 							style="background: #cc3700 !important; color: #FFFFFF;	font-size: 12px;"
 							action="#{vendaController.remover(venda)}" update="@form">
 							<p:confirm header="Confirmação" message="Confirma a exclusão?"
@@ -725,7 +738,7 @@
 
 								<p:ajax event="change"
 									process="dataVenda,formaPagamento,dataPagamento"
-									update="dataPrevPagamento,dataPagamento"
+									update="dataPrevPagamento,dataPagamento,qtdParcela"
 									listener="#{vendaController.verificaFormaPagamento()}" />
 
 							</p:selectOneMenu>
@@ -745,6 +758,7 @@
 								value="#{vendaController.venda.dataPagamento}" />
 
 							<p:inputNumber id="qtdParcela" styleClass="input100"
+								disabled="#{vendaController.venda.formaPagamento.descricao != 'Parcelado no Cartão'}"
 								value="#{vendaController.venda.quandidadeParcela}" />
 
 						</p:panelGrid>

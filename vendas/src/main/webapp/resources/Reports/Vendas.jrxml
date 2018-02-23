@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Vendas" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9e226f62-b495-4f61-ab01-58aae1cdc0e2">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+     venda."codigo" AS venda_codigo,
+     venda."canalvenda" AS venda_canalvenda,
+     venda."datacadastro" AS venda_datacadastro,
+     venda."datapagamento" AS venda_datapagamento,
+     venda."dataprevisaopagamento" AS venda_dataprevisaopagamento,
+     venda."datavenda" AS venda_datavenda,
+     venda."descontototal" AS venda_descontototal,
+     venda."formapagamento" AS venda_formapagamento,
+     venda."observacao" AS venda_observacao,
+     venda."prazoentrega" AS venda_prazoentrega,
+     venda."quandidadeparcela" AS venda_quandidadeparcela,
+     venda."quantidadetotal" AS venda_quantidadetotal,
+     venda."situacaovenda" AS venda_situacaovenda,
+     venda."valortotal" AS venda_valortotal,
+     venda."vendedor" AS venda_vendedor,
+     venda."cliente_codigo" AS venda_cliente_codigo,
+     venda."stauspagamento" AS venda_stauspagamento
+FROM
+     "public"."venda" venda]]>
+	</queryString>
+	<field name="venda_codigo" class="java.lang.Integer"/>
+	<field name="venda_datavenda" class="java.sql.Timestamp"/>
+	<field name="venda_cliente_codigo" class="java.lang.Integer"/>
+	<field name="venda_prazoentrega" class="java.sql.Timestamp"/>
+	<field name="venda_situacaovenda" class="java.lang.Integer"/>
+	<field name="venda_formapagamento" class="java.lang.Integer"/>
+	<field name="venda_stauspagamento" class="java.lang.Integer"/>
+	<field name="venda_valortotal" class="java.math.BigDecimal"/>
+	<variable name="venda_valortotal_1" class="java.math.BigDecimal" resetType="Page" calculation="Sum">
+		<variableExpression><![CDATA[$F{venda_valortotal}]]></variableExpression>
+	</variable>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="72">
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#006699" uuid="8e98c172-2d6e-42e6-9dc0-d67780588247"/>
+				<staticText>
+					<reportElement x="20" y="20" width="234" height="43" forecolor="#FFFFFF" uuid="34f45ab0-0f48-40e4-938b-943f3e3546a5"/>
+					<textElement>
+						<font size="34" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Vendas]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="395" y="43" width="180" height="20" forecolor="#FFFFFF" uuid="977e0f70-7f16-40f3-8fad-601a2dc799cd"/>
+					<textElement textAlignment="Right">
+						<font size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Lista de todas as Vendas]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="13"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="21">
+			<line>
+				<reportElement x="-20" y="20" width="595" height="1" forecolor="#666666" uuid="8889e63d-88ac-494b-bfd4-74f953c58761"/>
+			</line>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="46" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="85de1c7a-0dac-4f7b-99e5-6bfd5da26adc"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="46" y="0" width="74" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="800ed360-98fd-4843-bd61-3e0e69b6a3f2"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DATA VENDA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="120" y="0" width="69" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="3ef49d01-1835-471c-93b1-7fc7adbb2dc9"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CLIENTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="189" y="0" width="99" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="d798bcea-b037-4e17-993a-fcf7bc998b6a"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PRAZO ENTREGA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="288" y="0" width="75" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="d1f95a29-580c-4b2b-9d87-5871a90b5164"/>
+				<textElement textAlignment="Justified">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SITUAÇÃO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="363" y="0" width="83" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="2a438f57-343e-491d-914a-98eb17fa8340"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[F. PAGAMENTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="446" y="0" width="69" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="e81ef12c-5ad1-41ed-85e4-69549bf484d4"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[STATUS PAGAMENTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="515" y="0" width="37" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="91c9c5cb-c1f9-47ef-8a5a-c16318c8cbcd"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VALOR]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="23">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="19" width="555" height="1" uuid="8844e680-6d84-4699-97e2-e9fc355a0e40"/>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="0" width="46" height="20" uuid="dab0efe7-a029-411c-9dca-40f3f2aff1bf"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{venda_codigo}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy">
+				<reportElement x="46" y="0" width="74" height="20" uuid="eee76c7b-3b42-4395-afe4-8fd6bf7b6c9b"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{venda_datavenda}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="120" y="0" width="69" height="20" uuid="27fa9b14-7157-4666-81a9-e319419a23ad"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{venda_cliente_codigo}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy">
+				<reportElement x="189" y="0" width="99" height="20" uuid="c6a8c209-3c18-46ac-a93e-53ed7a8aba5d"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{venda_prazoentrega}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="288" y="0" width="75" height="20" uuid="17ca52ff-699f-4fb3-a4d0-227cb075111e"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{venda_situacaovenda}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="363" y="0" width="83" height="20" uuid="21770e87-c589-48ab-87d4-970f7e4277e7"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{venda_formapagamento}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="515" y="0" width="37" height="20" uuid="777fbacb-5927-4978-a7d9-9c772121bf2a"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{venda_valortotal}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="446" y="0" width="69" height="20" uuid="f29f01a8-a190-4a76-9816-598c57bec87e"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{venda_stauspagamento}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="65">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="48" width="515" height="13" backcolor="#E6E6E6" uuid="7c90fc5c-81e0-443d-8bf3-77dfe1e98481"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement mode="Opaque" x="515" y="48" width="40" height="13" backcolor="#E6E6E6" uuid="2c29f367-8f25-4b39-a86c-cc70659924c6"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="0" y="48" width="100" height="13" uuid="790db9fc-1a89-465d-8934-6d2c765aae6d"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="315" y="2" width="237" height="40" uuid="700f7f64-950f-4181-81b9-bae86d82b1a5"/>
+			</rectangle>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="413" y="2" width="139" height="40" forecolor="#0099FF" uuid="4c2465c6-6337-4de4-ad2d-172a20ddf236"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="24"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{venda_valortotal_1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="326" y="2" width="87" height="40" uuid="8fe29194-e007-4fd9-a1ce-1e7c542d223e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="24" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>
